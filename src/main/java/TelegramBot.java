@@ -15,38 +15,18 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingBot {
     private static final String BOT_USER_NAME = "QwertyITbot";
     private static final String TOKEN = "1770547715:AAGeAZ73iAUM8CXR9rpn_18kjLCTG7jNVzU";
+    private long chatId;
     private String userName;
     ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+    private static final PriceCrypts priceCrypts = new PriceCrypts();
 
-    /*@Override
-    public void onUpdateReceived(Update update) {
-        update.getUpdateId();                                   // Обновить информацию о пользователе
-        Message message = update.getMessage();                   // Получаем текст входящего сообщения
-        System.out.println("Text message: " + message.getText());
-        long chatId = message.getChatId();
-        userName = message.getChat().getUserName();
-        SendMessage sendMessage = new SendMessage().setChatId(chatId);            // Создаем объект, в котором опишем сообщение, которое хотим послать в ответ
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        String text = message.getText();
+    public static String getInfoPriceCrypto() {
+        return priceCrypts.getPriceCrypto();
+    }
+    public static String getInfoPriceCrypto2() {
+        return priceCrypts.getNameCrypto();
+    }
 
-
-        if (text.equals("/start")) {
-            sendMessage.setText("Привет, " + userName + "!");
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-            sendMessage.setText(getMessage(text));
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        } else {
-            sendMessage.setText("Echo: " + message.getText());  // Укажем текст сообщения
-        }
-    }*/
     @Override
     public void onUpdateReceived(Update update) {
         update.getUpdateId();
@@ -54,7 +34,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             System.out.println("Text message: " + message.getText());
-            long chatId = message.getChatId();
+            chatId = message.getChatId();
             userName = message.getChat().getUserName();
             SendMessage sendMessage = new SendMessage().setChatId(chatId);
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -70,6 +50,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                 } else if (text.equals("Список криптовалют")) {
                     try {
                         execute(sendInlineKeyBoardMessage(chatId));
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                } else if (text.equals("q")) {
+                    try {
+                        execute(sendMessage.setText(getInfoPriceCrypto2()));
+                        execute(sendMessage.setText(getInfoPriceCrypto()));
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -112,8 +99,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     public static SendMessage sendInlineKeyBoardMessage(long chatId) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("Биткоин").setCallbackData("Стоимость Биткоина: "));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("Эфириум").setCallbackData("Стоимость Эфириума: "));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("Биткоин").setCallbackData("Стоимость Биткоина: " + getInfoPriceCrypto()));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("Эфириум").setCallbackData("Стоимость Эфириума: " + getInfoPriceCrypto()));
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText("Tether").setCallbackData("Стоимость Tether: "));
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
