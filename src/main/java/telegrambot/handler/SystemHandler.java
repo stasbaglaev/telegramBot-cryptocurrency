@@ -76,6 +76,7 @@ public class SystemHandler extends AbstractHandler {
 //        keyboardFirstRow.clear();
 //        //keyboardFirstRow.add("Валюта");
 //        keyboardFirstRow.add("Список криптовалют");
+//        keyboardFirstRow.add("Построить график\ud83d\udc40");
 //        keyboard.add(keyboardFirstRow);
 //        replyKeyboardMarkup.setKeyboard(keyboard);
 //    }
