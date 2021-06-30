@@ -1,4 +1,4 @@
-package telegrambot.service;
+package telegrambot.ability;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -54,7 +54,7 @@ public class PriceCrypts {
         Elements crypts = table.select("[class=crypt-link]");
         for (Element elementCrypt : crypts) {
             String crypt = elementCrypt.text();
-            crypt = crypt.substring(crypt.indexOf(" ", 0)).trim();
+            crypt = crypt.substring(crypt.indexOf(" ",0)).trim();
             listCrypts.add(crypt);
         }
     }

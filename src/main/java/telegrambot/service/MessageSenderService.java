@@ -3,6 +3,10 @@ package telegrambot.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import telegrambot.bot.TelegramBot;
 
@@ -38,12 +42,21 @@ public class MessageSenderService implements Runnable {
     private void send(Object object) {
         try {
             MessageType messageType = messageType(object);
+            LOGGER.info("Получить тип объекта " + messageType);
             switch (messageType) {
                 case EXECUTE:
-                    BotApiMethod<Message> message = (BotApiMethod<Message>) object;
-                    LOGGER.debug("Use Execute for " + object);
-                    telegramBot.execute(message);
-                    break;
+                    if (SendMessage.class.equals(object.getClass())){
+                        BotApiMethod<Message> message = (BotApiMethod<Message>) object;
+                        LOGGER.debug("Use Execute for " + object);
+                        telegramBot.execute(message);
+                        break;
+                    } else if (SendPhoto.class.equals(object.getClass())){
+                        PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
+                        LOGGER.debug("Use Execute for " + object);
+                        telegramBot.execute((SendPhoto) message);
+                        break;
+                    }
+
                 default:
                     LOGGER.warn("Cant detect type of object. " + object);
             }
@@ -53,7 +66,8 @@ public class MessageSenderService implements Runnable {
     }
 
     private MessageType messageType(Object object) {
-        if (object instanceof BotApiMethod) return MessageType.EXECUTE;
+        LOGGER.info("Получить тип объекта " + object.getClass());
+        if ((object instanceof PartialBotApiMethod))return MessageType.EXECUTE;
         return MessageType.NOT_DETECTED;
     }
 

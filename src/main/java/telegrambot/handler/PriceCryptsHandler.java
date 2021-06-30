@@ -9,7 +9,7 @@ import telegrambot.command.Command;
 import telegrambot.command.ParsedCommand;
 import telegrambot.entity.Crypt;
 import telegrambot.entity.Currency;
-import telegrambot.service.PriceCrypts;
+import telegrambot.ability.PriceCrypts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,8 @@ import java.util.List;
 public class PriceCryptsHandler extends AbstractHandler {
     private static final String END_LINE = "\n";
     private static final PriceCrypts priceCrypts = new PriceCrypts();
+    private static final InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+    private static final List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
     private static final String bitcoinName = Crypt.Bitcoin.getName();
     private static final String ethereumName = Crypt.Ethereum.getName();
     private static final String litecoinName = Crypt.Litecoin.getName();
@@ -36,9 +38,6 @@ public class PriceCryptsHandler extends AbstractHandler {
     }
 
     private static SendMessage sendInlineKeyBoardListCrypts(String chatId) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-
         String bitcoin = "Bitcoin" + END_LINE +
                 "USD: " + priceCrypts.getPriceCrypt(bitcoinName, Currency.USD.getName()) + END_LINE +
                 "EUR: " + priceCrypts.getPriceCrypt(bitcoinName, Currency.EUR.getName()) + END_LINE +

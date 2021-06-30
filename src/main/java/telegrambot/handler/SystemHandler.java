@@ -5,9 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.ParsedCommand;
+
+import java.util.ArrayList;
 
 public class SystemHandler extends AbstractHandler {
     private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
@@ -43,8 +46,8 @@ public class SystemHandler extends AbstractHandler {
         displayedMessage.append("Меня зовут ").append(telegramBot.getBotName()).append(END_LINE);
         displayedMessage.append("Чтобы перейти к списку валют используй команду /price");
         sendMessage.setText(displayedMessage.toString());
-        //sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        //getMenu();
+//        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+//        getMenu();
         return sendMessage;
     }
 

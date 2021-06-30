@@ -10,11 +10,7 @@ import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.ParsedCommand;
 import telegrambot.command.ParserCommand;
-import telegrambot.entity.Crypt;
-import telegrambot.handler.AbstractHandler;
-import telegrambot.handler.DefaultHandler;
-import telegrambot.handler.PriceCryptsHandler;
-import telegrambot.handler.SystemHandler;
+import telegrambot.handler.*;
 
 
 public class MessageRecipientService implements Runnable {
@@ -105,6 +101,10 @@ public class MessageRecipientService implements Runnable {
                 PriceCryptsHandler priceCryptsHandler = new PriceCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + priceCryptsHandler);
                 return priceCryptsHandler;
+            case GRAPH:
+                LineChartCryptsHandler lineChartCryptsHandler = new LineChartCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + lineChartCryptsHandler);
+                return lineChartCryptsHandler;
             default:
                 LOGGER.info("Handler for command[" + command + "] not set. Return DefaultHandler");
                 return new DefaultHandler(telegramBot);

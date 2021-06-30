@@ -7,7 +7,6 @@ import telegrambot.command.ParsedCommand;
 
 public class DefaultHandler extends AbstractHandler {
 
-
     public DefaultHandler(TelegramBot telegramBot) {
         super(telegramBot);
     }

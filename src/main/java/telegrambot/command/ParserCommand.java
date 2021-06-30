@@ -1,6 +1,5 @@
 package telegrambot.command;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,18 +23,15 @@ public class ParserCommand {
         LOGGER.info("trimText: " + trimText);
 
 
-        //Pair<String, String> commandAndText = getDelimitedCommandFromText(trimText);
         if (isCommand(trimText)) {
             if (isCommandForMe(trimText)) {
                 String commandForParse = cutCommandFromFullText(trimText);
                 LOGGER.info("commandForParse " + commandForParse);
                 Command commandFromText = getCommandFromText(commandForParse);
                 LOGGER.info("commandFromText " + commandFromText);
-                //result.setText(commandAndText.getValue());
                 result.setCommand(commandFromText);
             } else {
                 result.setCommand(Command.NOTFORME);
-                //result.setText(commandAndText.getValue());
             }
         }
         return result;
@@ -66,19 +62,6 @@ public class ParserCommand {
             return command;
         }
     }
-
-//    private Pair<String, String> getDelimitedCommandFromText(String trimText) {
-//        Pair<String, String> commandText;
-//
-//        if (trimText.contains(" ")) {
-//            int indexOfSpace = trimText.indexOf(" ");
-//            commandText = new Pair<>(trimText.substring(0, indexOfSpace), trimText.substring(indexOfSpace + 1));
-//        } else {
-//            commandText = new Pair<>(trimText, "");
-//        }
-//        LOGGER.info("commandText " + commandText);
-//        return commandText;
-//    }
 
     private boolean isCommandForMe(String command) {
         if (command.contains(DELIMITER_COMMAND_BOTNAME)) {
