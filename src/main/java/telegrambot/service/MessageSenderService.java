@@ -8,12 +8,18 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import telegrambot.ability.LineChartCrypts;
 import telegrambot.bot.TelegramBot;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MessageSenderService implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(MessageSenderService.class);
     private static final int SENDER_SLEEP_TIME = 1000;
     private final TelegramBot telegramBot;
+    private static final LineChartCrypts lineChartCrypts = new LineChartCrypts();
 
     public MessageSenderService(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
@@ -45,15 +51,20 @@ public class MessageSenderService implements Runnable {
             LOGGER.info("Получить тип объекта " + messageType);
             switch (messageType) {
                 case EXECUTE:
-                    if (SendMessage.class.equals(object.getClass())){
+                    if (SendMessage.class.equals(object.getClass())) {
                         BotApiMethod<Message> message = (BotApiMethod<Message>) object;
                         LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute(message);
                         break;
-                    } else if (SendPhoto.class.equals(object.getClass())){
+                    } else if (SendPhoto.class.equals(object.getClass())) {
                         PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
                         LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
+                        try {
+                            Files.delete(Paths.get(lineChartCrypts.getFileName()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
 
@@ -67,7 +78,7 @@ public class MessageSenderService implements Runnable {
 
     private MessageType messageType(Object object) {
         LOGGER.info("Получить тип объекта " + object.getClass());
-        if ((object instanceof PartialBotApiMethod))return MessageType.EXECUTE;
+        if ((object instanceof PartialBotApiMethod)) return MessageType.EXECUTE;
         return MessageType.NOT_DETECTED;
     }
 
