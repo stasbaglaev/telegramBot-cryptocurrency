@@ -6,36 +6,33 @@ import telegrambot.handler.SystemHandler;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 public class Main {
-    private static Connection connection;
-    private static Statement statement;
     private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
 
     public static void main(String[] args) {
         SimpleDateFormat formater = new SimpleDateFormat("yy.MM.dd HH:mm");
         java.util.Date date = new java.util.Date();
-        connectSQL();
-        add("ETC", formater.format(date),3050);
+        ConnectionSQL.getConnection();
+
+        add("ETC", formater.format(date), generateValue(50, 90), generateValue(55, 95), generateValue(70, 105));
     }
 
-    public static void connectSQL(){
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_db","wwroot","1qaz@WSX");
-            statement = connection.createStatement();
-
-        } catch (SQLException e) {
-            LOGGER.warn("Error connection on DB 'my_db' ");
-        }
+    private static Integer generateValue(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
     }
 
-    private static String add (String nameCrypt, String date, Integer priceCrypt){
-        String sqlQuery = "INSERT INTO crypts(name, date, currency) VALUES (?,?,?)";
+    private static String add(String nameCrypt, String date, Integer valueUSD, Integer valueEUR, Integer valueRUB) {
+        String sqlQuery = "INSERT INTO crypts(name, date, currencyUSD, currencyEUR, currencyRUB) VALUES (?,?,?,?,?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
-            preparedStatement.setString(2,date);
-            preparedStatement.setString(3,priceCrypt.toString());
+            preparedStatement.setString(2, date);
+            preparedStatement.setString(3, valueUSD.toString());
+            preparedStatement.setString(4, valueEUR.toString());
+            preparedStatement.setString(5, valueRUB.toString());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             LOGGER.warn("Error while using the command 'INSERT INTO' on DB 'my_db' ");

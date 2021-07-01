@@ -2,25 +2,29 @@ package service.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import telegrambot.handler.SystemHandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ConnectionSQL {
     private static Connection connection;
-    private static Statement statement;
-    private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionSQL.class);
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/my_db";
+    private static final String DB_USER = "wwroot";
+    private static final String DB_PASS = "1qaz@WSX";
 
-    public void connectSQL() {
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_db", "wwroot", "1qaz@WSX");
-            statement = connection.createStatement();
+    private ConnectionSQL() {
+    }
 
-        } catch (SQLException e) {
-            LOGGER.warn("Error connection on DB 'my_db' ");
+    public static Connection getConnection() {
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            } catch (SQLException e) {
+                LOGGER.warn("Error connection on DB 'my_db'!");
+            }
         }
+        return connection;
     }
 }
