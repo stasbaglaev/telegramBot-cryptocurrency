@@ -44,7 +44,7 @@ public class SystemHandler extends AbstractHandler {
         StringBuilder displayedMessage = new StringBuilder();
         displayedMessage.append("Привет, *").append(userNameInChat).append("*! ");
         displayedMessage.append("Меня зовут ").append(telegramBot.getBotName()).append(END_LINE);
-        displayedMessage.append("Чтобы перейти к списку валют используй команду /price");
+        displayedMessage.append("Чтобы перейти к списку криптовалют используй команду /price");
         sendMessage.setText(displayedMessage.toString());
 //        sendMessage.setReplyMarkup(replyKeyboardMarkup);
 //        getMenu();
