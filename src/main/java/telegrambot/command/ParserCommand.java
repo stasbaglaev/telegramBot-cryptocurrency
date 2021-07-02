@@ -48,8 +48,15 @@ public class ParserCommand {
 
     private Command getCommandFromText(String text) {
         LOGGER.debug("text: " + text);
-        if (text.equals(Command.PRICE.getName())) {
-            return Command.PRICE;
+        if (text.equals(Command.SUBSCRIBE.getName())) {
+            return Command.SUBSCRIBE;
+
+        } else if (text.equals(Command.UNSUBSCRIBE.getName())) {
+            return Command.UNSUBSCRIBE;
+        } else if (text.equals(Command.HELP.getName())) {
+            return Command.HELP;
+        } else if (text.equals(Command.GRAPH.getName())) {
+            return Command.GRAPH;
         } else {
             String upperCaseText = text.toUpperCase().trim();
             Command command = Command.NONE;
@@ -72,6 +79,7 @@ public class ParserCommand {
     }
 
     private boolean isCommand(String text) {
-        return text.startsWith(PREFIX_FOR_COMMAND) || text.equals(Command.PRICE.getName());
+        return (text.startsWith(PREFIX_FOR_COMMAND)) || (text.equals(Command.SUBSCRIBE.getName()) || (text.equals(Command.UNSUBSCRIBE.getName()))
+                || (text.equals(Command.HELP.getName())) || (text.equals(Command.GRAPH.getName())));
     }
 }

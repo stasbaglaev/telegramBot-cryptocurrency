@@ -19,7 +19,7 @@ public class Main {
                     java.util.Date date = new java.util.Date();
                     ConnectionSQL.getConnection();
                     add("ETC", formater.format(date), generateValue(50, 90), generateValue(55, 95), generateValue(70, 105));
-                    Thread.sleep(2000000); //2000000 - 33 мин
+                    Thread.sleep(10000); //2000000 - 33 мин
                 } catch (InterruptedException ex) {
                 }
             }

@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.ability.LineChartCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
+import telegrambot.command.IconEmoji;
 import telegrambot.command.ParsedCommand;
 
 import java.io.File;
@@ -24,14 +25,15 @@ public class LineChartCryptsHandler extends AbstractHandler {
         if (command == Command.GRAPH) {
             telegramBot.sendQueue.add(sendMessageStatusCommand(chatId));
             lineChartCrypts.getLineChartCrypts();
-            telegramBot.sendQueue.add(sendLineChartCrypts(chatId));
+            if (lineChartCrypts.completedOperation()){
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId));}
         }
         return "";
     }
 
     private static SendMessage sendMessageStatusCommand(String chatId) {
         return new SendMessage().setChatId(chatId)
-                .setText("График формируется, пожалуйста, подождите");
+                .setText(IconEmoji.GRAPH.get() + " График формируется, пожалуйста, подождите");
     }
 
     private static SendPhoto sendLineChartCrypts(String chatId) {

@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.ability.LineChartCrypts;
 import telegrambot.bot.TelegramBot;
 
@@ -40,7 +41,7 @@ public class MessageSenderService implements Runnable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception method run");
         }
     }
 
@@ -59,19 +60,22 @@ public class MessageSenderService implements Runnable {
                         PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
                         LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
-                        try {
-                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
                         break;
                     }
 
                 default:
                     LOGGER.warn("Cant detect type of object. " + object);
             }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+        } catch (TelegramApiException e) {
+
+//            telegramBot.sendQueue.add(new SendMessage().setChatId(chatId)
+//                    .setText("Вы слишком часто отправляете запросы"));
+            LOGGER.error("TelegramApiRequestException " + e.getMessage() + e);
         }
     }
 

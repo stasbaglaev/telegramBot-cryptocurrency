@@ -59,9 +59,6 @@ public class MessageRecipientService implements Runnable {
             if (message.hasText()) {
                 String text = message.getText();
                 LOGGER.info("Message.getText " + text);
-                if (text.equals(Command.PRICE.getName())){
-
-                }
                 parsedCommand = parserCommand.getParsedCommand(text);
                 LOGGER.info("ParsedCommand " + parsedCommand.getCommand());
             }
@@ -97,10 +94,14 @@ public class MessageRecipientService implements Runnable {
                 SystemHandler systemHandler = new SystemHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + systemHandler + " Return SystemHandler");
                 return systemHandler;
-            case PRICE:
-                PriceCryptsHandler priceCryptsHandler = new PriceCryptsHandler(telegramBot);
-                LOGGER.info("Handler for command[" + command + "] is: " + priceCryptsHandler);
-                return priceCryptsHandler;
+            case SUBSCRIBE:
+                SubscribeInfoCryptsHandler subscribeInfoCryptsHandler = new SubscribeInfoCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + subscribeInfoCryptsHandler);
+                return subscribeInfoCryptsHandler;
+            case UNSUBSCRIBE:
+                UnsubscribeInfoCryptsHandler unsubscribeInfoCryptsHandler = new UnsubscribeInfoCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + unsubscribeInfoCryptsHandler);
+                return unsubscribeInfoCryptsHandler;
             case GRAPH:
                 LineChartCryptsHandler lineChartCryptsHandler = new LineChartCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + lineChartCryptsHandler);

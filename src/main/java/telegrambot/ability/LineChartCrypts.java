@@ -1,5 +1,6 @@
 package telegrambot.ability;
 
+import com.google.common.io.Closer;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,30 +28,47 @@ public class LineChartCrypts {
     private static final Logger LOGGER = LogManager.getLogger(MessageRecipientService.class);
     @Getter
     public static final String FILE_NAME = "LineChartCrypt.jpeg";
-    private static final File BACKGROUND_IMAGE = new File("BackgroundImage.jpg");
-    private static final File BACKGROUND_CHART = new File("BackgroundChart.jpg");
+    //private static final File BACKGROUND_IMAGE = new File("BackgroundImage.jpg");
+    //private static final File BACKGROUND_CHART = new File("BackgroundChart.jpg");
     private static final String nameCrypt = "ETC";
-    private static  DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
+    private static final DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
+    private static Boolean completed = true;
+    @Getter
+    private static Image imageBackground = null;
+    @Getter
+    private static Image chartBackground = null;
+
+    static {
+        try {
+            imageBackground = ImageIO.read(new File("BackgroundImage.jpg"));
+            chartBackground = ImageIO.read(new File("BackgroundChart.jpg"));
+        } catch (IOException e) {
+            LOGGER.warn("File 'BackgroundChart.jpg' or File 'BackgroundImage.jpg' not found in project folder!");
+        }
+    }
+
 
     List<String> columnCurrency = Arrays.asList("currencyUSD", "currencyEUR", "currencyRUB");
 
     public void getLineChartCrypts() {
-        try (ResultSet resultSet = select()){
-        try {
-            while (true) {
-                assert resultSet != null;
-                if (!resultSet.next()) break;
-                //String name = resultSet.getString("name");
-                String date = resultSet.getString("date");
-                for (String currency : columnCurrency) {
-                    int value = resultSet.getInt(currency);
-                    lineChartDataset.addValue(value, currency, date);
+        completed = false;
+        try (ResultSet resultSet = select()) {
+            try {
+                while (true) {
+                    assert resultSet != null;
+                    if (!resultSet.next()) break;
+                    //String name = resultSet.getString("name");
+                    String date = resultSet.getString("date");
+                    String dayTime = date.substring(0, 2);
+                    for (String currency : columnCurrency) {
+                        int value = resultSet.getInt(currency);
+                        lineChartDataset.addValue(value, currency, date);
+                    }
+                    createLineChart();
                 }
-                createLineChart();
+            } catch (SQLException throwables) {
+                LOGGER.warn("Error! ");
             }
-        } catch (SQLException throwables) {
-            LOGGER.warn("Error! ");
-        }
         } catch (SQLException e) {
             LOGGER.warn("Error! The request is being generated, but there may be an error in the structure of the database table");
         }
@@ -60,8 +78,8 @@ public class LineChartCrypts {
         String sqlQuery = "SELECT name, date, currencyUSD, currencyEUR, currencyRUB FROM crypts where name = ?";
         try {
             PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
-                preparedStatement.setString(1, nameCrypt);
-                return preparedStatement.executeQuery();
+            preparedStatement.setString(1, nameCrypt);
+            return preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             LOGGER.warn("I can not complete the request: " + sqlQuery);
@@ -89,20 +107,20 @@ public class LineChartCrypts {
         } catch (IOException e) {
             LOGGER.warn("Can't save lineChart: " + lineChart);
         }
+        completed = true;
     }
 
     private static void makeSettingsLineChart(JFreeChart lineChartObject) {
         CategoryAxis domainAxis = lineChartObject.getCategoryPlot().getDomainAxis();
         domainAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 7));
+        lineChartObject.setBackgroundImage(getImageBackground());
+        Plot plot = lineChartObject.getPlot();
+        plot.setBackgroundImage(getChartBackground());
+//            plot.setBackgroundImageAlignment(Align.TOP_RIGHT);
+//            plot.setBackgroundImageAlpha(1.0f);
+    }
 
-        try {
-            lineChartObject.setBackgroundImage(ImageIO.read(BACKGROUND_IMAGE));
-            Plot plot = lineChartObject.getPlot();
-            plot.setBackgroundImage(ImageIO.read(BACKGROUND_CHART));
-            //plot.setBackgroundImageAlignment(Align.TOP_RIGHT);
-            plot.setBackgroundImageAlpha(1.0f);
-        } catch (IOException e) {
-            LOGGER.warn("File 'BackgroundChart.jpg' or File 'BackgroundImage.jpg' not found in project folder!");
-        }
+    public Boolean completedOperation() {
+        return completed;
     }
 }
