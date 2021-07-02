@@ -37,7 +37,7 @@ public class SystemHandler extends AbstractHandler {
 
     private SendMessage getMessageStart(String chatId, String userNameInChat) {
         String displayedMessage = "Привет, *" + userNameInChat + "*! " +
-                "Меня зовут " + telegramBot.getBotName() + END_LINE +
+                "Меня зовут " + telegramBot.getBotName() + END_LINE + END_LINE +
                 "Для навигации используйте меню " + IconEmoji.POINTER.get();
         //sendMessage.setReplyMarkup(replyKeyboardMarkup);
         getMenu();

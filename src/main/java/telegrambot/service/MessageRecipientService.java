@@ -95,13 +95,13 @@ public class MessageRecipientService implements Runnable {
                 LOGGER.info("Handler for command[" + command + "] is: " + systemHandler + " Return SystemHandler");
                 return systemHandler;
             case SUBSCRIBE:
-                SubscribeInfoCryptsHandler subscribeInfoCryptsHandler = new SubscribeInfoCryptsHandler(telegramBot);
-                LOGGER.info("Handler for command[" + command + "] is: " + subscribeInfoCryptsHandler);
-                return subscribeInfoCryptsHandler;
+                SubscriptionInformationCryptsHandler subscriptionInformationCryptsHandler = new SubscriptionInformationCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + subscriptionInformationCryptsHandler);
+                return subscriptionInformationCryptsHandler;
             case UNSUBSCRIBE:
-                UnsubscribeInfoCryptsHandler unsubscribeInfoCryptsHandler = new UnsubscribeInfoCryptsHandler(telegramBot);
-                LOGGER.info("Handler for command[" + command + "] is: " + unsubscribeInfoCryptsHandler);
-                return unsubscribeInfoCryptsHandler;
+                UnsubscriptionInformationCryptsHandler unsubscriptionInformationCryptsHandler = new UnsubscriptionInformationCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + unsubscriptionInformationCryptsHandler);
+                return unsubscriptionInformationCryptsHandler;
             case GRAPH:
                 LineChartCryptsHandler lineChartCryptsHandler = new LineChartCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + lineChartCryptsHandler);

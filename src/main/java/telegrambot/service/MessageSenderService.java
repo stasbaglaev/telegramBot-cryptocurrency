@@ -75,7 +75,7 @@ public class MessageSenderService implements Runnable {
 
 //            telegramBot.sendQueue.add(new SendMessage().setChatId(chatId)
 //                    .setText("Вы слишком часто отправляете запросы"));
-            LOGGER.error("TelegramApiRequestException " + e.getMessage() + e);
+            LOGGER.error("TelegramApiRequestException " + e.getMessage(), e);
         }
     }
 

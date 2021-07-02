@@ -14,9 +14,9 @@ import telegrambot.entity.Crypt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnsubscribeInfoCryptsHandler extends AbstractHandler{
+public class SubscriptionInformationCryptsHandler extends AbstractHandler {
     private static final String END_LINE = "\n";
-    private static final PriceCrypts priceCrypts = new PriceCrypts(); // тут менять, внизу в коде (в колбэках будет метод который совершает подписки или отказывается от нее)
+    private static final PriceCrypts priceCrypts = new PriceCrypts();
     private static final String btcName = Crypt.BTC.getName();
     private static final String ethName = Crypt.ETH.getName();
     private static final String bnbName = Crypt.BNB.getName();
@@ -24,7 +24,8 @@ public class UnsubscribeInfoCryptsHandler extends AbstractHandler{
     private static final String dotName = Crypt.DOT.getName();
     private static final String adaName = Crypt.ADA.getName();
 
-    public UnsubscribeInfoCryptsHandler(TelegramBot telegramBot) {
+
+    public SubscriptionInformationCryptsHandler(TelegramBot telegramBot) {
         super(telegramBot);
     }
 
@@ -32,7 +33,7 @@ public class UnsubscribeInfoCryptsHandler extends AbstractHandler{
     public String operate(String chatId, ParsedCommand parsedCommand, Update update) {
         Command command = parsedCommand.getCommand();
 
-        if (command == Command.UNSUBSCRIBE) {
+        if (command == Command.SUBSCRIBE) {
             telegramBot.sendQueue.add(sendMessageStatusCommand(chatId));
             telegramBot.sendQueue.add(sendInlineKeyBoardListCrypts(chatId));
         }
@@ -48,22 +49,40 @@ public class UnsubscribeInfoCryptsHandler extends AbstractHandler{
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
-        String bitcoin = "BTC";
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(btcName + IconEmoji.MONEY.get()).setCallbackData(bitcoin));
+        String bitcoin = "BTC" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(btcName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(btcName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(btcName) + END_LINE;
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(btcName).setCallbackData(bitcoin));
 
-        String ethereum = "ETH";
+        String ethereum = "ETH" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(ethName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(ethName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(ethName) + END_LINE;
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ethName).setCallbackData(ethereum));
 
-        String binance = "BNB";
+        String binance = "BNB" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(bnbName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(bnbName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(bnbName) + END_LINE;
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(bnbName).setCallbackData(binance));
 
-        String dogecoin = "DOGE";
+        String dogecoin = "DOGE" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(dogeName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(dogeName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(dogeName) + END_LINE;
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dogeName).setCallbackData(dogecoin));
 
-        String polkadot = "DOT";
+        String polkadot = "DOT" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(dotName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(dotName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(dotName) + END_LINE;
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dotName).setCallbackData(polkadot));
 
-        String cardano = "ADA";
+        String cardano = "ADA" + END_LINE +
+                "USD: " + priceCrypts.getPriceCryptUsd(adaName) + END_LINE +
+                "EUR: " + priceCrypts.getPriceCryptEur(adaName) + END_LINE +
+                "RUB: " + priceCrypts.getPriceCryptRub(adaName) + END_LINE;
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(adaName).setCallbackData(cardano));
 
 
@@ -75,5 +94,4 @@ public class UnsubscribeInfoCryptsHandler extends AbstractHandler{
                 .setText("Выбери криптовалюту, чтобы подписаться на информацию о ее стоимости")
                 .setReplyMarkup(inlineKeyboardMarkup);
     }
-
 }

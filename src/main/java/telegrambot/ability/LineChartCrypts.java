@@ -30,7 +30,7 @@ public class LineChartCrypts {
     public static final String FILE_NAME = "LineChartCrypt.jpeg";
     //private static final File BACKGROUND_IMAGE = new File("BackgroundImage.jpg");
     //private static final File BACKGROUND_CHART = new File("BackgroundChart.jpg");
-    private static final String nameCrypt = "ETC";
+    //private static final String nameCrypt = "ETC";
     private static final DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
     private static Boolean completed = true;
     @Getter
@@ -48,11 +48,11 @@ public class LineChartCrypts {
     }
 
 
-    List<String> columnCurrency = Arrays.asList("currencyUSD", "currencyEUR", "currencyRUB");
+    private static final List<String> columnCurrency = Arrays.asList("currencyUSD", "currencyEUR", "currencyRUB");
 
-    public void getLineChartCrypts() {
+    public static String getLineChartCrypts(String nameCrypt) {
         completed = false;
-        try (ResultSet resultSet = select()) {
+        try (ResultSet resultSet = select(nameCrypt)) {
             try {
                 while (true) {
                     assert resultSet != null;
@@ -64,17 +64,18 @@ public class LineChartCrypts {
                         int value = resultSet.getInt(currency);
                         lineChartDataset.addValue(value, currency, date);
                     }
-                    createLineChart();
+                    createLineChart(nameCrypt);
                 }
-            } catch (SQLException throwables) {
+            } catch (SQLException e) {
                 LOGGER.warn("Error! ");
             }
         } catch (SQLException e) {
             LOGGER.warn("Error! The request is being generated, but there may be an error in the structure of the database table");
         }
+        return "";
     }
 
-    private static ResultSet select() {
+    private static ResultSet select(String nameCrypt) {
         String sqlQuery = "SELECT name, date, currencyUSD, currencyEUR, currencyRUB FROM crypts where name = ?";
         try {
             PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
@@ -87,7 +88,7 @@ public class LineChartCrypts {
         return null;
     }
 
-    private static void createLineChart() {
+    private static void createLineChart(String nameCrypt) {
         JFreeChart lineChartObject = ChartFactory.createLineChart(
                 "Курс " + nameCrypt, "Период",
                 "Стоимость",
@@ -96,6 +97,7 @@ public class LineChartCrypts {
 
         makeSettingsLineChart(lineChartObject);
         saveChartAsJpeg(lineChartObject);
+
     }
 
     private static void saveChartAsJpeg(JFreeChart lineChartObject) {
