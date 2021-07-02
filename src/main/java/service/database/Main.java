@@ -12,11 +12,19 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
 
     public static void main(String[] args) {
-        SimpleDateFormat formater = new SimpleDateFormat("yy.MM.dd HH:mm");
-        java.util.Date date = new java.util.Date();
-        ConnectionSQL.getConnection();
-
-        add("ETC", formater.format(date), generateValue(50, 90), generateValue(55, 95), generateValue(70, 105));
+        Thread run = new Thread(() -> {
+            while(true){
+                try {
+                    SimpleDateFormat formater = new SimpleDateFormat("yy.MM.dd HH:mm");
+                    java.util.Date date = new java.util.Date();
+                    ConnectionSQL.getConnection();
+                    add("ETC", formater.format(date), generateValue(50, 90), generateValue(55, 95), generateValue(70, 105));
+                    Thread.sleep(2000000); //2000000 - 33 мин
+                } catch (InterruptedException ex) {
+                }
+            }
+        });
+        run.start();
     }
 
     private static Integer generateValue(int min, int max) {

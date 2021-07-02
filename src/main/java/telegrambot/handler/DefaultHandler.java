@@ -18,9 +18,7 @@ public class DefaultHandler extends AbstractHandler {
     }
 
     private SendMessage defaultMessage(String chatId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText("Команда не распознана, для начала используй команду /start");
-        return sendMessage;
+        return new SendMessage().setChatId(chatId)
+                .setText("Команда не распознана, для начала используйте команду /start");
     }
 }

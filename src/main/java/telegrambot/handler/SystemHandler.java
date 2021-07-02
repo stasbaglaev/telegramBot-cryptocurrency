@@ -1,7 +1,5 @@
 package telegrambot.handler;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -13,7 +11,6 @@ import telegrambot.command.ParsedCommand;
 import java.util.ArrayList;
 
 public class SystemHandler extends AbstractHandler {
-    private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
     private static final String END_LINE = "\n";
     private static final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
@@ -38,17 +35,14 @@ public class SystemHandler extends AbstractHandler {
     }
 
     private SendMessage getMessageStart(String chatId, String userNameInChat) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.enableMarkdown(true);
-        StringBuilder displayedMessage = new StringBuilder();
-        displayedMessage.append("Привет, *").append(userNameInChat).append("*! ");
-        displayedMessage.append("Меня зовут ").append(telegramBot.getBotName()).append(END_LINE);
-        displayedMessage.append("Чтобы перейти к списку криптовалют используй команду /price");
-        sendMessage.setText(displayedMessage.toString());
+        String displayedMessage = "Привет, *" + userNameInChat + "*! " +
+                "Меня зовут " + telegramBot.getBotName() + END_LINE +
+                "Чтобы перейти к списку криптовалют используй команду /price";
 //        sendMessage.setReplyMarkup(replyKeyboardMarkup);
 //        getMenu();
-        return sendMessage;
+        return new SendMessage().setChatId(chatId)
+                .enableMarkdown(true)
+                .setText(displayedMessage);
     }
 
 //    private SendMessage getMessageHelp(String chatID) {
@@ -63,7 +57,6 @@ public class SystemHandler extends AbstractHandler {
 //        sendMessage.setText(text.toString());
 //        return sendMessage;
 //    }
-
 
 
 //    private static void getMenu() {
@@ -94,4 +87,4 @@ public class SystemHandler extends AbstractHandler {
         inlineKeyboardMarkup.setKeyboard(rowList);
         return new SendMessage().setChatId(chatId).setText("Выбери валюту:").setReplyMarkup(inlineKeyboardMarkup);
     }*/
-    }
+}

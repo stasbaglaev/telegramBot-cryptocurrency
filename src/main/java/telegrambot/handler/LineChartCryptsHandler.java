@@ -12,7 +12,6 @@ import java.io.File;
 
 public class LineChartCryptsHandler extends AbstractHandler {
     private static final LineChartCrypts lineChartCrypts = new LineChartCrypts();
-    private static final SendPhoto sendPhotoRequest = new SendPhoto();
 
     public LineChartCryptsHandler(TelegramBot telegramBot) {
         super(telegramBot);
@@ -23,16 +22,22 @@ public class LineChartCryptsHandler extends AbstractHandler {
         Command command = parsedCommand.getCommand();
 
         if (command == Command.GRAPH) {
+            telegramBot.sendQueue.add(sendMessageStatusCommand(chatId));
             lineChartCrypts.getLineChartCrypts();
             telegramBot.sendQueue.add(sendLineChartCrypts(chatId));
         }
         return "";
     }
 
+    private static SendMessage sendMessageStatusCommand(String chatId) {
+        return new SendMessage().setChatId(chatId)
+                .setText("График формируется, пожалуйста, подождите");
+    }
+
     private static SendPhoto sendLineChartCrypts(String chatId) {
-        sendPhotoRequest.setChatId(chatId);
-        sendPhotoRequest.setPhoto(new File(lineChartCrypts.getFileName()));
-        return sendPhotoRequest;
+        return new SendPhoto().setChatId(chatId)
+                .setPhoto(new File(LineChartCrypts.getFILE_NAME()));
+
     }
 }
 

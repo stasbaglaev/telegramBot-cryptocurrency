@@ -10,6 +10,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.Align;
 import service.database.ConnectionSQL;
 import telegrambot.service.MessageRecipientService;
 
@@ -25,8 +26,9 @@ public class LineChartCrypts {
 
     private static final Logger LOGGER = LogManager.getLogger(MessageRecipientService.class);
     @Getter
-    public static final String fileName = "LineChartCrypt.jpeg";
-    private static final File background = new File("Background.jpg");
+    public static final String FILE_NAME = "LineChartCrypt.jpeg";
+    private static final File BACKGROUND_IMAGE = new File("BackgroundImage.jpg");
+    private static final File BACKGROUND_CHART = new File("BackgroundChart.jpg");
     private static final String nameCrypt = "ETC";
     private static  DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
 
@@ -81,7 +83,7 @@ public class LineChartCrypts {
     private static void saveChartAsJpeg(JFreeChart lineChartObject) {
         int width = 1280;
         int height = 720;
-        File lineChart = new File(fileName);
+        File lineChart = new File(FILE_NAME);
         try {
             ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, width, height);
         } catch (IOException e) {
@@ -94,12 +96,13 @@ public class LineChartCrypts {
         domainAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 7));
 
         try {
-            lineChartObject.setBackgroundImage(ImageIO.read(background));
+            lineChartObject.setBackgroundImage(ImageIO.read(BACKGROUND_IMAGE));
             Plot plot = lineChartObject.getPlot();
-            plot.setBackgroundImage(ImageIO.read(background));
-            plot.setBackgroundImageAlpha(0.5f);
+            plot.setBackgroundImage(ImageIO.read(BACKGROUND_CHART));
+            //plot.setBackgroundImageAlignment(Align.TOP_RIGHT);
+            plot.setBackgroundImageAlpha(1.0f);
         } catch (IOException e) {
-            LOGGER.warn("File 'Background.jpg' not found in project folder!");
+            LOGGER.warn("File 'BackgroundChart.jpg' or File 'BackgroundImage.jpg' not found in project folder!");
         }
     }
 }

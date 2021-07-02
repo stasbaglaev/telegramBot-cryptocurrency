@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -61,7 +60,7 @@ public class MessageSenderService implements Runnable {
                         LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
                         try {
-                            Files.delete(Paths.get(lineChartCrypts.getFileName()));
+                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

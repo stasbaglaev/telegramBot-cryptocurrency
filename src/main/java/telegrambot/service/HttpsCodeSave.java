@@ -5,9 +5,6 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * <b>Get the Html source from the secure url </b>
- */
 public class HttpsCodeSave {
     public static void saveHtml() throws Exception {
         String httpsURL = "https://ru.investing.com/crypto/currencies";
@@ -21,7 +18,6 @@ public class HttpsCodeSave {
         BufferedReader in = new BufferedReader(isr);
         String inputLine;
 
-        // Write each line into the file
         while ((inputLine = in.readLine()) != null) {
             System.out.println(inputLine);
             bw.write(inputLine);
