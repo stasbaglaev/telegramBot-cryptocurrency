@@ -5,20 +5,53 @@ import org.apache.logging.log4j.Logger;
 import service.database.ConnectionSql;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SubscriptionInformationCrypts {
     private static final Logger LOGGER = LogManager.getLogger(SubscriptionInformationCrypts.class);
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yy.MM.dd HH:mm");
 
 
-//    public void sub(String name, String chatId){
-//        subscription(name,chatId);
-//        //return "null";
-//    }
+    public static void main(String[] args) {
+
+    }
+
+    private static List<String> getSubscription(String chatId) {
+        List<String> listCrypt = new LinkedList<>();
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = null;
+            String sqlQuery = "SELECT crypt, chatID, date FROM subscription where chatID=?";
+            preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
+            preparedStatement.setString(1, chatId);
+            resultSet = preparedStatement.executeQuery();
+            while (true) {
+                assert resultSet != null;
+                try {
+                    if (!resultSet.next()) break;
+                    listCrypt.add(resultSet.getString("crypt"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listCrypt;
+    }
 
     public void updateDB(String name, String chatId) {
+        List<String> listCryptsSubscription = getSubscription(chatId);
+        if (!listCryptsSubscription.contains(name)) {
+            insertInto(name, chatId);
+        }
+    }
+
+    private static void insertInto(String name, String chatId) {
         String sqlQuery = "INSERT INTO subscription(crypt, chatID, date) VALUES (?,?,?)";
         java.util.Date date = new java.util.Date();
         try {
@@ -33,13 +66,22 @@ public class SubscriptionInformationCrypts {
             //return "Подписка на криптовалюту " + name + " не выполнена !";
         }
         //return "Подписка на криптовалюту " + name + " выполнена успешно!";
-
     }
 
+
+
     public void deleteDB(String name, String chatId) {
+        List<String> listCryptsSubscription = getSubscription(chatId);
+        if (listCryptsSubscription.contains(name)) {
+            delete(name, chatId);
+        }
+    }
+
+    private static void delete(String name, String chatId) {
+        PreparedStatement preparedStatement = null;
         String sqlQuery = "DELETE FROM subscription WHERE crypt=? AND chatID=?";
         try {
-            PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
+            preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, chatId);
             preparedStatement.executeUpdate();
