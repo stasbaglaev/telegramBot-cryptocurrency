@@ -17,7 +17,7 @@ public class MainOld {
                 try {
                     SimpleDateFormat formater = new SimpleDateFormat("yy.MM.dd HH:mm");
                     java.util.Date date = new java.util.Date();
-                    ConnectionSQL.getConnection();
+                    ConnectionSql.getConnection();
                     add("ETC", formater.format(date), generateValue(50, 90), generateValue(55, 95), generateValue(70, 105));
                     Thread.sleep(10000); //2000000 - 33 мин
                 } catch (InterruptedException ex) {
@@ -35,7 +35,7 @@ public class MainOld {
     private static String add(String nameCrypt, String date, Integer valueUSD, Integer valueEUR, Integer valueRUB) {
         String sqlQuery = "INSERT INTO crypts(name, date, currencyUSD, currencyEUR, currencyRUB) VALUES (?,?,?,?,?)";
         try {
-            PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
             preparedStatement.setString(2, date);
             preparedStatement.setString(3, valueUSD.toString());

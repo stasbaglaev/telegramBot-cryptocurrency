@@ -2,7 +2,7 @@ package telegrambot.ability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.database.ConnectionSQL;
+import service.database.ConnectionSql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,8 +14,8 @@ public class RequestInformationCrypts {
     private static final Logger LOGGER = LogManager.getLogger(RequestInformationCrypts.class);
 
 
-    public static void main(String[] args) {
-        //getPriceCrypt();
+//    public static void main(String[] args) {
+//        getPriceCrypt();
 //        getPriceBtc();
 //        getPriceEth();
 //        getPriceBnb();
@@ -28,7 +28,7 @@ public class RequestInformationCrypts {
 //        System.out.println(priceCryptUni);
 //        System.out.println(priceCryptDot);
 //        System.out.println(priceCryptSol);
-    }
+//    }
 
 //    public RequestInformationCrypts() {
 //        getPriceCrypt();
@@ -216,7 +216,7 @@ public class RequestInformationCrypts {
     private static ResultSet select(String nameCrypt) {
         String sqlQuery = "SELECT name, date, USD, EUR, RUB FROM crypts where name=? order by date DESC limit 1";
         try {
-            PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {

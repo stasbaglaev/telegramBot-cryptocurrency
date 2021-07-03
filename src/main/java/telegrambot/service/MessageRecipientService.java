@@ -6,11 +6,15 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import telegrambot.ability.SubscriptionInformationCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.ParsedCommand;
 import telegrambot.command.ParserCommand;
+import telegrambot.entity.Crypt;
 import telegrambot.handler.*;
+import telegrambot.message.Subscription;
+import telegrambot.message.Unsubscription;
 
 
 public class MessageRecipientService implements Runnable {
@@ -18,6 +22,13 @@ public class MessageRecipientService implements Runnable {
     private static final int WAIT_FOR_NEW_MESSAGE_DELAY = 1000;
     private final TelegramBot telegramBot;
     private final ParserCommand parserCommand;
+    private static final SubscriptionInformationCrypts subscriptionInformationCrypts = new SubscriptionInformationCrypts();
+    private static final String btcName = Crypt.BTC.getName();
+    private static final String ethName = Crypt.ETH.getName();
+    private static final String bnbName = Crypt.BNB.getName();
+    private static final String uniName = Crypt.UNI.getName();
+    private static final String dotName = Crypt.DOT.getName();
+    private static final String solName = Crypt.SOL.getName();
 
     public MessageRecipientService(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
@@ -55,12 +66,10 @@ public class MessageRecipientService implements Runnable {
             Long chatId = message.getChatId();
 
             ParsedCommand parsedCommand = new ParsedCommand(Command.NONE, "");
-
             if (message.hasText()) {
                 String text = message.getText();
-                LOGGER.info("Message.getText " + text);
                 parsedCommand = parserCommand.getParsedCommand(text);
-                LOGGER.info("ParsedCommand " + parsedCommand.getCommand());
+                LOGGER.debug("ParsedCommand " + parsedCommand.getCommand());
             }
 
             AbstractHandler handlerForCommand = getHandlerForCommand(parsedCommand.getCommand());
@@ -75,6 +84,8 @@ public class MessageRecipientService implements Runnable {
             }
         } else if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
+            checkSubscription(callbackQuery);
+            checkUnsubscription(callbackQuery);
             Long chatId = callbackQuery.getMessage().getChat().getId();
             SendMessage messageOut = new SendMessage();
             messageOut.setChatId(chatId);
@@ -82,6 +93,42 @@ public class MessageRecipientService implements Runnable {
             telegramBot.sendQueue.add(messageOut);
         }
     }
+
+    private static void checkSubscription(CallbackQuery callbackQuery){
+        String chatId = Long.toString(callbackQuery.getMessage().getChatId());
+        if (callbackQuery.getData().equals(Subscription.BTC.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(btcName, chatId);
+        }else if (callbackQuery.getData().equals(Subscription.ETH.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(ethName, chatId);
+        }else if (callbackQuery.getData().equals(Subscription.BNB.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(bnbName, chatId);
+        }else if (callbackQuery.getData().equals(Subscription.UNI.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(uniName, chatId);
+        }else if (callbackQuery.getData().equals(Subscription.DOT.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(dotName, chatId);
+        }else if (callbackQuery.getData().equals(Subscription.SOL.getTextMessage())) {
+            subscriptionInformationCrypts.updateDB(solName, chatId);
+        }
+    }
+
+    private static void checkUnsubscription(CallbackQuery callbackQuery){
+        String chatId = Long.toString(callbackQuery.getMessage().getChatId());
+        if (callbackQuery.getData().equals(Unsubscription.BTC.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(btcName, chatId);
+        }else if (callbackQuery.getData().equals(Unsubscription.ETH.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(ethName, chatId);
+        }else if (callbackQuery.getData().equals(Unsubscription.BNB.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(bnbName, chatId);
+        }else if (callbackQuery.getData().equals(Unsubscription.UNI.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(uniName, chatId);
+        }else if (callbackQuery.getData().equals(Unsubscription.DOT.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(dotName, chatId);
+        }else if (callbackQuery.getData().equals(Unsubscription.SOL.getTextMessage())) {
+            subscriptionInformationCrypts.deleteDB(solName, chatId);
+        }
+    }
+
+
 
     private AbstractHandler getHandlerForCommand(Command command) {
         if (command == null) {

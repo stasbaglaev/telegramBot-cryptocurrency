@@ -58,8 +58,7 @@ public class ParserCommand {
             return Command.GRAPH;
         } else if (text.equals(Command.SUBSCRIBE.getName())) {
             return Command.SUBSCRIBE;
-        }
-        else {
+        } else {
             String upperCaseText = text.toUpperCase().trim();
             Command command = Command.NONE;
             try {

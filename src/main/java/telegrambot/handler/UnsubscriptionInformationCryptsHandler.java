@@ -10,13 +10,13 @@ import telegrambot.command.Command;
 import telegrambot.command.IconEmoji;
 import telegrambot.command.ParsedCommand;
 import telegrambot.entity.Crypt;
+import telegrambot.message.Subscription;
+import telegrambot.message.Unsubscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnsubscriptionInformationCryptsHandler extends AbstractHandler{
-    private static final String END_LINE = "\n";
-    private static final PriceCrypts priceCrypts = new PriceCrypts(); // тут менять, внизу в коде (в колбэках будет метод который совершает подписки или отказывается от нее)
     private static final String btcName = Crypt.BTC.getName();
     private static final String ethName = Crypt.ETH.getName();
     private static final String bnbName = Crypt.BNB.getName();
@@ -48,23 +48,23 @@ public class UnsubscriptionInformationCryptsHandler extends AbstractHandler{
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
-        //String message = "Вы успешно отписались от рассылки информации по криптовалюте ";
-        String bitcoin = "BTC";
+
+        String bitcoin = Unsubscription.BTC.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(btcName).setCallbackData(bitcoin));
 
-        String ethereum = "ETH";
+        String ethereum = Unsubscription.ETH.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ethName).setCallbackData(ethereum));
 
-        String binance = "BNB";
+        String binance = Unsubscription.BNB.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(bnbName).setCallbackData(binance));
 
-        String uniswap = "UNI";
+        String uniswap = Unsubscription.UNI.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(uniName).setCallbackData(uniswap));
 
-        String polkadot = "DOT";
+        String polkadot = Unsubscription.DOT.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dotName).setCallbackData(polkadot));
 
-        String solano = "SOL";
+        String solano = Unsubscription.SOL.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(solName).setCallbackData(solano));
 
 

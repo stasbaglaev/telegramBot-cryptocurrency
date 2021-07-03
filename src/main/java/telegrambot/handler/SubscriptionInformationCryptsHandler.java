@@ -5,16 +5,18 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.ability.PriceCrypts;
+import telegrambot.ability.SubscriptionInformationCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.IconEmoji;
 import telegrambot.command.ParsedCommand;
 import telegrambot.entity.Crypt;
+import telegrambot.message.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscriptionInformationCryptsHandler extends AbstractHandler{
+public class SubscriptionInformationCryptsHandler extends AbstractHandler {
     private static final String END_LINE = "\n";
     private static final String btcName = Crypt.BTC.getName();
     private static final String ethName = Crypt.ETH.getName();
@@ -22,6 +24,7 @@ public class SubscriptionInformationCryptsHandler extends AbstractHandler{
     private static final String uniName = Crypt.UNI.getName();
     private static final String dotName = Crypt.DOT.getName();
     private static final String solName = Crypt.SOL.getName();
+    private static final SubscriptionInformationCrypts subscriptionInformationCrypts = new SubscriptionInformationCrypts();
 
     public SubscriptionInformationCryptsHandler(TelegramBot telegramBot) {
         super(telegramBot);
@@ -47,23 +50,23 @@ public class SubscriptionInformationCryptsHandler extends AbstractHandler{
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
-        //String message = "Вы успешно отписались от рассылки информации по криптовалюте ";
-        String bitcoin = "BTC";
+
+        String bitcoin = Subscription.BTC.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(btcName).setCallbackData(bitcoin));
 
-        String ethereum = "ETH";
+        String ethereum = Subscription.ETH.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ethName).setCallbackData(ethereum));
 
-        String binance = "BNB";
+        String binance = Subscription.BNB.getTextMessage();
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(bnbName).setCallbackData(binance));
 
-        String uniswap = "UNI";
+        String uniswap = Subscription.UNI.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(uniName).setCallbackData(uniswap));
 
-        String polkadot = "DOT";
+        String polkadot = Subscription.DOT.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dotName).setCallbackData(polkadot));
 
-        String solano = "SOL";
+        String solano = Subscription.SOL.getTextMessage();
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(solName).setCallbackData(solano));
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();

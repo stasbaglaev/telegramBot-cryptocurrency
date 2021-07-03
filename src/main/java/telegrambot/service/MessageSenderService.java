@@ -31,7 +31,7 @@ public class MessageSenderService implements Runnable {
         try {
             while (true) {
                 for (Object object = telegramBot.sendQueue.poll(); object != null; object = telegramBot.sendQueue.poll()) {
-                    LOGGER.debug("Get new message to send " + object);
+                    LOGGER.info("Get new message to send " + object);
                     send(object);
                 }
                 try {
@@ -53,12 +53,12 @@ public class MessageSenderService implements Runnable {
                 case EXECUTE:
                     if (SendMessage.class.equals(object.getClass())) {
                         BotApiMethod<Message> message = (BotApiMethod<Message>) object;
-                        LOGGER.debug("Use Execute for " + object);
+                        LOGGER.info("Use Execute for " + object);
                         telegramBot.execute(message);
                         break;
                     } else if (SendPhoto.class.equals(object.getClass())) {
                         PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
-                        LOGGER.debug("Use Execute for " + object);
+                        LOGGER.info("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
 //                        try {
 //                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
@@ -78,6 +78,8 @@ public class MessageSenderService implements Runnable {
             LOGGER.error("TelegramApiRequestException " + e.getMessage(), e);
         }
     }
+
+
 
     private MessageType messageType(Object object) {
         LOGGER.info("Получить тип объекта " + object.getClass());

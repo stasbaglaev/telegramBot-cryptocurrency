@@ -1,6 +1,5 @@
 package telegrambot.ability;
 
-import com.google.common.io.Closer;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +10,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.Align;
-import service.database.ConnectionSQL;
+import service.database.ConnectionSql;
 import telegrambot.service.MessageRecipientService;
 
 import javax.imageio.ImageIO;
@@ -78,7 +76,7 @@ public class LineChartCrypts {
     private static ResultSet select(String nameCrypt) {
         String sqlQuery = "SELECT name, date, currencyUSD, currencyEUR, currencyRUB FROM crypts where name = ?";
         try {
-            PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
             return preparedStatement.executeQuery();
 

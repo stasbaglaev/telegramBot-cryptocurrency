@@ -35,7 +35,7 @@ public class RunService {
                 CoinGeckoApiClient client = new CoinGeckoApiClientImpl();
                 java.util.Date date = new java.util.Date();
                 generateMaps(client);
-                ConnectionSQL.getConnection();
+                ConnectionSql.getConnection();
                 insertIntoDB("BTC", FORMAT.format(date), cryptsPriceUsdMap.get(BITCOIN), cryptsPriceEurMap.get(BITCOIN), cryptsPriceRubMap.get(BITCOIN));
                 insertIntoDB("ETH", FORMAT.format(date), cryptsPriceUsdMap.get(ETHEREUM), cryptsPriceEurMap.get(ETHEREUM), cryptsPriceRubMap.get(ETHEREUM));
                 insertIntoDB("BNB", FORMAT.format(date), cryptsPriceUsdMap.get(BINANCE_COIN), cryptsPriceEurMap.get(BINANCE_COIN), cryptsPriceRubMap.get(BINANCE_COIN));
@@ -77,7 +77,7 @@ public class RunService {
     private static void insertIntoDB(String nameCrypt, String date, Long valueUSD, Long valueEUR, Long valueRUB) {
         String sqlQuery = "INSERT INTO crypts(name, date, USD, EUR, RUB) VALUES (?,?,?,?,?)";
         try {
-            PreparedStatement preparedStatement = ConnectionSQL.getConnection().prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
             preparedStatement.setString(2, date);
             preparedStatement.setString(3, valueUSD.toString());
