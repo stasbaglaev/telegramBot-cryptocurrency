@@ -48,16 +48,18 @@ public class ParserCommand {
 
     private Command getCommandFromText(String text) {
         LOGGER.debug("text: " + text);
-        if (text.equals(Command.SUBSCRIBE.getName())) {
-            return Command.SUBSCRIBE;
-
+        if (text.equals(Command.REQUEST.getName())) {
+            return Command.REQUEST;
         } else if (text.equals(Command.UNSUBSCRIBE.getName())) {
             return Command.UNSUBSCRIBE;
         } else if (text.equals(Command.HELP.getName())) {
             return Command.HELP;
         } else if (text.equals(Command.GRAPH.getName())) {
             return Command.GRAPH;
-        } else {
+        } else if (text.equals(Command.SUBSCRIBE.getName())) {
+            return Command.SUBSCRIBE;
+        }
+        else {
             String upperCaseText = text.toUpperCase().trim();
             Command command = Command.NONE;
             try {
@@ -79,7 +81,7 @@ public class ParserCommand {
     }
 
     private boolean isCommand(String text) {
-        return (text.startsWith(PREFIX_FOR_COMMAND)) || (text.equals(Command.SUBSCRIBE.getName()) || (text.equals(Command.UNSUBSCRIBE.getName()))
-                || (text.equals(Command.HELP.getName())) || (text.equals(Command.GRAPH.getName())));
+        return ((text.startsWith(PREFIX_FOR_COMMAND)) || (text.equals(Command.SUBSCRIBE.getName())) || (text.equals(Command.REQUEST.getName())) ||
+                (text.equals(Command.UNSUBSCRIBE.getName())) || (text.equals(Command.HELP.getName())) || (text.equals(Command.GRAPH.getName())));
     }
 }

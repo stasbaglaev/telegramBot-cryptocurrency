@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum Command {
     NONE("NONE"), NOTFORME("NOTFORME"), START("Привет"),
-    HELP("Помощь"), SUBSCRIBE("Подписаться"),
+    HELP("Помощь"), REQUEST("Запросить стоимость"),SUBSCRIBE("Подписаться"),
     UNSUBSCRIBE("Отписаться"),
     GRAPH("Построить график");
 

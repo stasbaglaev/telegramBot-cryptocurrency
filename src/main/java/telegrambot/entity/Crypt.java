@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum Crypt {
-    BTC("BTC"), Ethereum("Ethereum"), Litecoin("Litecoin")
-    ,ETH("ETH"),BNB("BNB"),DOGE("DOGE"),DOT("DOT"),ADA("ADA");
+    BTC("BTC"), ETH("ETH"), BNB("BNB"),
+    UNI("UNI"), DOT("DOT"), SOL("SOL");
 
     @Getter
     private final String name;

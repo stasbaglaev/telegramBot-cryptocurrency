@@ -29,7 +29,7 @@ public class MessageRecipientService implements Runnable {
         LOGGER.info("[STARTED] MessageRecipientService.  Bot class: " + telegramBot.getBotName());
         while (true) {
             for (Object object = telegramBot.receiveQueue.poll(); object != null; object = telegramBot.receiveQueue.poll()) {
-                LOGGER.info("New object for analyze in queue " + object);
+                //LOGGER.info("New object for analyze in queue " + object);
                 analyze(object);
             }
             try {
@@ -94,6 +94,10 @@ public class MessageRecipientService implements Runnable {
                 SystemHandler systemHandler = new SystemHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + systemHandler + " Return SystemHandler");
                 return systemHandler;
+            case REQUEST:
+                RequestInformationCryptsHandler requestInformationCryptsHandler = new RequestInformationCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + requestInformationCryptsHandler);
+                return requestInformationCryptsHandler;
             case SUBSCRIBE:
                 SubscriptionInformationCryptsHandler subscriptionInformationCryptsHandler = new SubscriptionInformationCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + subscriptionInformationCryptsHandler);

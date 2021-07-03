@@ -26,9 +26,9 @@ public class LineChartCryptsHandler extends AbstractHandler {
     private static final String btcName = Crypt.BTC.getName();
     private static final String ethName = Crypt.ETH.getName();
     private static final String bnbName = Crypt.BNB.getName();
-    private static final String dogeName = Crypt.DOGE.getName();
+    private static final String uniName = Crypt.UNI.getName();
     private static final String dotName = Crypt.DOT.getName();
-    private static final String adaName = Crypt.ADA.getName();
+    private static final String solName = Crypt.SOL.getName();
 
 
     public LineChartCryptsHandler(TelegramBot telegramBot) {
@@ -41,7 +41,7 @@ public class LineChartCryptsHandler extends AbstractHandler {
 
         if (command == Command.GRAPH) {
             telegramBot.sendQueue.add(sendMessageStatusCommand(chatId));
-            telegramBot.sendQueue.add(sendInlineKeyBoardListCrypts(chatId));
+            //telegramBot.sendQueue.add(sendInlineKeyBoardListCrypts(chatId));
 
 //            if (lineChartCrypts.completedOperation()){
 //            telegramBot.sendQueue.add(sendLineChartCrypts(chatId));
@@ -57,7 +57,7 @@ public class LineChartCryptsHandler extends AbstractHandler {
 
     private static SendMessage sendMessageStatusCommand(String chatId) {
         return new SendMessage().setChatId(chatId)
-                .setText("Список криптовалют формируется, пожалуйста, подождите");
+                .setText(IconEmoji.HOURGLASS.get() + "Список криптовалют формируется, пожалуйста, подождите");
     }
 
     private static SendPhoto sendLineChartCrypts(String chatId) {
@@ -112,14 +112,14 @@ public class LineChartCryptsHandler extends AbstractHandler {
         String binance = "BNB" + LineChartCrypts.getLineChartCrypts(bnbName);
         keyboardButtonsRow1.add(new InlineKeyboardButton().setText(bnbName).setCallbackData(binance));
 
-        String dogecoin = "DOGE" + LineChartCrypts.getLineChartCrypts(dogeName);
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dogeName).setCallbackData(dogecoin));
+        String uniswap = "UNI" + LineChartCrypts.getLineChartCrypts(uniName);
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(uniName).setCallbackData(uniswap));
 
         String polkadot = "DOT" + LineChartCrypts.getLineChartCrypts(dotName);
         keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dotName).setCallbackData(polkadot));
 
-        String cardano = "ADA" + LineChartCrypts.getLineChartCrypts(adaName);
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(adaName).setCallbackData(cardano));
+        String solana = "SOL" + LineChartCrypts.getLineChartCrypts(solName);
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(solName).setCallbackData(solana));
 
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -127,7 +127,7 @@ public class LineChartCryptsHandler extends AbstractHandler {
         rowList.add(keyboardButtonsRow2);
         inlineKeyboardMarkup.setKeyboard(rowList);
         return new SendMessage().setChatId(chatId)
-                .setText("Выбери криптовалюту, чтобы вывести график за сутки")
+                .setText(IconEmoji.BOARD.get() + "Выбери криптовалюту, чтобы вывести график за сутки")
                 .setReplyMarkup(inlineKeyboardMarkup);
     }
 }

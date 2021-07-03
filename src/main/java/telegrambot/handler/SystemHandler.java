@@ -51,6 +51,7 @@ public class SystemHandler extends AbstractHandler {
         StringBuilder text = new StringBuilder();
         text.append("*Описание команд*").append(END_LINE).append(END_LINE);
         text.append("/start - начать работу").append(END_LINE);
+        text.append("/request - запросить данные по курсам криптовалют").append(END_LINE);
         text.append("/subscribe - подписаться на получение рассылки с данными по курсам криптовалют").append(END_LINE);
         text.append("/unsubscribe - отписаться от получения рассылки с данными по курсам криптовалют").append(END_LINE);
         text.append("/graph - построить график").append(END_LINE);
@@ -65,18 +66,22 @@ public class SystemHandler extends AbstractHandler {
         ArrayList<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow1 = new KeyboardRow();
         KeyboardRow keyboardFirstRow2 = new KeyboardRow();
+        KeyboardRow keyboardFirstRow3 = new KeyboardRow();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         keyboard.clear();
         keyboardFirstRow1.clear();
         keyboardFirstRow2.clear();
-        keyboardFirstRow1.add("Подписаться");
-        keyboardFirstRow1.add("Отписаться");
-        keyboardFirstRow2.add("Построить график");
-        keyboardFirstRow2.add("Помощь");
+        keyboardFirstRow3.clear();
+        keyboardFirstRow1.add("Запросить стоимость");
+        keyboardFirstRow2.add("Подписаться");
+        keyboardFirstRow2.add("Отписаться");
+        keyboardFirstRow3.add("Построить график");
+        keyboardFirstRow3.add("Помощь");
         keyboard.add(keyboardFirstRow1);
         keyboard.add(keyboardFirstRow2);
+        keyboard.add(keyboardFirstRow3);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 

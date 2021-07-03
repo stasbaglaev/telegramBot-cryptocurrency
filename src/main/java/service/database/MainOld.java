@@ -8,7 +8,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 
-public class Main {
+public class MainOld {
     private static final Logger LOGGER = LogManager.getLogger(SystemHandler.class);
 
     public static void main(String[] args) {

@@ -8,7 +8,9 @@ public enum IconEmoji {
     SUBSCRIBE(":white_check_mark:"),
     UNSUBSCRIBE(":x:"),
     HELP(":sos:"),
-    MONEY(":moneybag:");
+    MONEY(":moneybag:"),
+    BOARD(":clipboard:"),
+    HOURGLASS(":hourglass_flowing_sand:");
 
 
     private String value;
