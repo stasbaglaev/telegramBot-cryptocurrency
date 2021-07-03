@@ -20,7 +20,7 @@ public class SubscriptionInformationCrypts {
 
     }
 
-    private static List<String> getSubscription(String chatId) {
+    public static List<String> getSubscription(String chatId) {
         List<String> listCrypt = new LinkedList<>();
         ResultSet resultSet = null;
         try {
@@ -56,7 +56,6 @@ public class SubscriptionInformationCrypts {
         java.util.Date date = new java.util.Date();
         try {
             PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
-            //LOGGER.info("preparedStatement " + preparedStatement);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, chatId);
             preparedStatement.setString(3, FORMAT.format(date));

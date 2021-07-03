@@ -96,34 +96,34 @@ public class MessageRecipientService implements Runnable {
 
     private static void checkSubscription(CallbackQuery callbackQuery){
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
-        if (callbackQuery.getData().equals(Subscription.BTC.getTextMessage())) {
+        if (callbackQuery.getData().equals(Subscription.BTC.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(btcName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.ETH.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Subscription.ETH.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(ethName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.BNB.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Subscription.BNB.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(bnbName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.UNI.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Subscription.UNI.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(uniName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.DOT.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Subscription.DOT.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(dotName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.SOL.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Subscription.SOL.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(solName, chatId);
         }
     }
 
     private static void checkUnsubscription(CallbackQuery callbackQuery){
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
-        if (callbackQuery.getData().equals(Unsubscription.BTC.getTextMessage())) {
+        if (callbackQuery.getData().equals(Unsubscription.BTC.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(btcName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.ETH.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Unsubscription.ETH.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(ethName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.BNB.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Unsubscription.BNB.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(bnbName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.UNI.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Unsubscription.UNI.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(uniName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.DOT.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Unsubscription.DOT.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(dotName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.SOL.getTextMessage())) {
+        }else if (callbackQuery.getData().equals(Unsubscription.SOL.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(solName, chatId);
         }
     }

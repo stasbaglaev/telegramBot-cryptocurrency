@@ -10,7 +10,8 @@ public enum IconEmoji {
     HELP(":sos:"),
     MONEY(":moneybag:"),
     BOARD(":clipboard:"),
-    HOURGLASS(":hourglass_flowing_sand:");
+    HOURGLASS(":hourglass_flowing_sand:"),
+    EXCLAMATION(":exclamation:");
 
 
     private String value;
