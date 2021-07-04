@@ -157,6 +157,17 @@ public class MessageRecipientService implements Runnable {
                 LineChartCryptsHandler lineChartCryptsHandler = new LineChartCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + lineChartCryptsHandler);
                 return lineChartCryptsHandler;
+            case DUMPING:
+            case DUMPINGBTC:
+            case DUMPINGETH:
+            case DUMPINGBNB:
+            case DUMPINGUNI:
+            case DUMPINGDOT:
+            case DUMPINGSOL:
+                DumpingCryptsHandler dumpingCryptsHandler = new DumpingCryptsHandler(telegramBot);
+                LOGGER.info("Handler for command[" + command + "] is: " + dumpingCryptsHandler);
+                return dumpingCryptsHandler;
+
             default:
                 LOGGER.info("Handler for command[" + command + "] not set. Return DefaultHandler");
                 return new DefaultHandler(telegramBot);

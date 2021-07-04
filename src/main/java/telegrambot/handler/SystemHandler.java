@@ -38,7 +38,7 @@ public class SystemHandler extends AbstractHandler {
     private SendMessage getMessageStart(String chatId, String userNameInChat) {
         String displayedMessage = "Привет, *" + userNameInChat + "*! " +
                 "Меня зовут " + telegramBot.getBotName() + END_LINE + END_LINE +
-                "Для навигации используйте меню " + IconEmoji.POINTER.get();
+                "Для навигации используйте меню " + IconEmoji.POINTER_DOWN.get();
         //sendMessage.setReplyMarkup(replyKeyboardMarkup);
         getMenu();
         return new SendMessage().setChatId(chatId)
@@ -54,6 +54,7 @@ public class SystemHandler extends AbstractHandler {
         text.append("/request - запросить данные по курсам криптовалют").append(END_LINE);
         text.append("/subscribe - подписаться на получение рассылки с данными по курсам криптовалют").append(END_LINE);
         text.append("/unsubscribe - отписаться от получения рассылки с данными по курсам криптовалют").append(END_LINE);
+        text.append("/dumping *x* - задать событие вида \"падение курса криптовалюты от текущего значения на X%\" ").append(END_LINE);
         text.append("/graph - построить график").append(END_LINE);
         text.append("/help - вызвать описание команд").append(END_LINE);
         return new SendMessage().setChatId(chatID)
@@ -75,6 +76,7 @@ public class SystemHandler extends AbstractHandler {
         keyboardFirstRow2.clear();
         keyboardFirstRow3.clear();
         keyboardFirstRow1.add("Запросить стоимость");
+        keyboardFirstRow1.add("Задать событие");
         keyboardFirstRow2.add("Подписаться");
         keyboardFirstRow2.add("Отписаться");
         keyboardFirstRow3.add("Построить график");

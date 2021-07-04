@@ -20,7 +20,7 @@ import java.util.Objects;
 public class DistributionHandler extends AbstractHandler implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(DistributionHandler.class);
     private static final String END_LINE = "\n";
-    private static final int SENDER_SLEEP_TIME = 1000;
+    private static final int SENDER_SLEEP_TIME = 30000;
 
 
     public DistributionHandler(TelegramBot telegramBot) {
@@ -35,18 +35,12 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
         List<String> priceCryptDot = getPriceDot(Objects.requireNonNull(select(Crypt.DOT.getName())));
         List<String> priceCryptSol = getPriceSol(Objects.requireNonNull(select(Crypt.SOL.getName())));
 
-
-        System.out.println(getIdChats());
-        int i=0;
         for (String chatId : getIdChats()) {
-            System.out.println(chatId);
             getSubscription(chatId);
             for (String subscription : getSubscription(chatId)) {
                 switch (subscription) {
                     case "BTC":
-                         i++;
                         LOGGER.info("priceCryptBtc: " + priceCryptBtc);
-                        LOGGER.error("Я тут " + i);
                         String bitcoin = "*BTC*" + END_LINE +
                                 "USD: " + priceCryptBtc.get(1) + END_LINE +
                                 "EUR: " + priceCryptBtc.get(2) + END_LINE +
@@ -78,7 +72,7 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
                         telegramBot.sendSubscriptionQueue.add(new SendMessage().setChatId(chatId).setText(uniswap).enableMarkdown(true));
                         break;
                     case "DOT":
-                        LOGGER.info("priceCryptDot: " + priceCryptDot);
+                        LOGGER.debug("PriceCryptDot: " + priceCryptDot);
                         String polkadot = "*DOT*" + END_LINE +
                                 "USD: " + priceCryptDot.get(1) + END_LINE +
                                 "EUR: " + priceCryptDot.get(2) + END_LINE +
@@ -86,7 +80,7 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
                         telegramBot.sendSubscriptionQueue.add(new SendMessage().setChatId(chatId).setText(polkadot).enableMarkdown(true));
                         break;
                     case "SOL":
-                        LOGGER.info("priceCryptSol: " + priceCryptSol);
+                        LOGGER.debug("PriceCryptSol: " + priceCryptSol);
                         String solana = "*SOL*" + END_LINE +
                                 "USD: " + priceCryptSol.get(1) + END_LINE +
                                 "EUR: " + priceCryptSol.get(2) + END_LINE +
@@ -96,11 +90,11 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
                 }
             }
         }
+        LOGGER.debug("Сообщения успешно отправлены!");
     }
 
     @Override
     public String operate(String chatId, ParsedCommand parsedCommand, Update update) {
-
         return null;
     }
 
@@ -277,9 +271,8 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
         Thread run = new Thread(() -> {
             while (true) {
                 create();
-                LOGGER.info("Сообщение отправлено успешно!");
                 try {
-                    Thread.sleep(30000); //1000 - 1 сек
+                    Thread.sleep(SENDER_SLEEP_TIME);
                 } catch (InterruptedException e) {
                     LOGGER.error("Error!");
                 }

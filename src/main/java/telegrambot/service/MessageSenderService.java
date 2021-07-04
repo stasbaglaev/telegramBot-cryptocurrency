@@ -31,7 +31,7 @@ public class MessageSenderService implements Runnable {
         try {
             while (true) {
                 for (Object object = telegramBot.sendQueue.poll(); object != null; object = telegramBot.sendQueue.poll()) {
-                    LOGGER.info("Get new message to send " + object);
+                    LOGGER.debug("Get new message to send " + object);
                     send(object);
                 }
                 try {
@@ -48,17 +48,17 @@ public class MessageSenderService implements Runnable {
     private void send(Object object) {
         try {
             MessageType messageType = messageType(object);
-            LOGGER.info("Получить тип объекта " + messageType);
+            LOGGER.debug("Получить тип объекта " + messageType);
             switch (messageType) {
                 case EXECUTE:
                     if (SendMessage.class.equals(object.getClass())) {
                         BotApiMethod<Message> message = (BotApiMethod<Message>) object;
-                        LOGGER.info("Use Execute for " + object);
+                        LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute(message);
                         break;
                     } else if (SendPhoto.class.equals(object.getClass())) {
                         PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
-                        LOGGER.info("Use Execute for " + object);
+                        LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
 //                        try {
 //                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
@@ -82,7 +82,7 @@ public class MessageSenderService implements Runnable {
 
 
     private MessageType messageType(Object object) {
-        LOGGER.info("Получить тип объекта " + object.getClass());
+        LOGGER.debug("Получить тип объекта " + object.getClass());
         if ((object instanceof PartialBotApiMethod)) return MessageType.EXECUTE;
         return MessageType.NOT_DETECTED;
     }
