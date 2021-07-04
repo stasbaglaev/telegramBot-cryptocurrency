@@ -76,7 +76,7 @@ public class SystemHandler extends AbstractHandler {
         keyboardFirstRow2.clear();
         keyboardFirstRow3.clear();
         keyboardFirstRow1.add("Запросить стоимость");
-        keyboardFirstRow1.add("Задать событие");
+        keyboardFirstRow1.add("Тейк-профит");
         keyboardFirstRow2.add("Подписаться");
         keyboardFirstRow2.add("Отписаться");
         keyboardFirstRow3.add("Построить график");

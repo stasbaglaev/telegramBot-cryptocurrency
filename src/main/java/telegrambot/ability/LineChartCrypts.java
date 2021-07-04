@@ -11,26 +11,25 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import telegrambot.service.database.ConnectionSql;
-import telegrambot.service.MessageRecipientService;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
 public class LineChartCrypts {
 
-    private static final Logger LOGGER = LogManager.getLogger(MessageRecipientService.class);
+    private static final Logger LOGGER = LogManager.getLogger(LineChartCrypts.class);
     @Getter
     public static final String FILE_NAME = "LineChartCrypt.jpeg";
-    //private static final File BACKGROUND_IMAGE = new File("BackgroundImage.jpg");
-    //private static final File BACKGROUND_CHART = new File("BackgroundChart.jpg");
-    //private static final String nameCrypt = "ETC";
+
     private static final DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
-    private static Boolean completed = true;
+
     @Getter
     private static Image imageBackground = null;
     @Getter
@@ -46,10 +45,10 @@ public class LineChartCrypts {
     }
 
 
-    private static final List<String> columnCurrency = Arrays.asList("currencyUSD", "currencyEUR", "currencyRUB");
+    private static final List<String> columnCurrency = Arrays.asList("USD", "EUR", "RUB");
 
-    public static String getLineChartCrypts(String nameCrypt) {
-        completed = false;
+    public String getLineChartCrypts(String nameCrypt) {
+
         try (ResultSet resultSet = select(nameCrypt)) {
             try {
                 while (true) {
@@ -74,12 +73,11 @@ public class LineChartCrypts {
     }
 
     private static ResultSet select(String nameCrypt) {
-        String sqlQuery = "SELECT name, date, currencyUSD, currencyEUR, currencyRUB FROM crypts where name = ?";
+        String sqlQuery = "SELECT name, date, USD, EUR, RUB FROM crypts where name = ?";
         try {
             PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
             return preparedStatement.executeQuery();
-
         } catch (SQLException e) {
             LOGGER.warn("I can not complete the request: " + sqlQuery);
         }
@@ -95,7 +93,6 @@ public class LineChartCrypts {
 
         makeSettingsLineChart(lineChartObject);
         saveChartAsJpeg(lineChartObject);
-
     }
 
     private static void saveChartAsJpeg(JFreeChart lineChartObject) {
@@ -107,7 +104,6 @@ public class LineChartCrypts {
         } catch (IOException e) {
             LOGGER.warn("Can't save lineChart: " + lineChart);
         }
-        completed = true;
     }
 
     private static void makeSettingsLineChart(JFreeChart lineChartObject) {
@@ -118,9 +114,5 @@ public class LineChartCrypts {
         plot.setBackgroundImage(getChartBackground());
 //            plot.setBackgroundImageAlignment(Align.TOP_RIGHT);
 //            plot.setBackgroundImageAlpha(1.0f);
-    }
-
-    public Boolean completedOperation() {
-        return completed;
     }
 }

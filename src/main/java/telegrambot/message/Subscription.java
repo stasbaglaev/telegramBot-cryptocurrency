@@ -10,12 +10,12 @@ import telegrambot.command.IconEmoji;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum Subscription {
-    BTC(IconEmoji.SUBSCRIBE.get() + "Подписка на BTC оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на BTC итак активная!"),
-    ETH(IconEmoji.SUBSCRIBE.get() + "Подписка на ETH оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на ETH итак активная!"),
-    BNB(IconEmoji.SUBSCRIBE.get() + "Подписка на BNB оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на BNB итак активная!"),
-    UNI(IconEmoji.SUBSCRIBE.get() + "Подписка на UNI оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на UNI итак активная!"),
-    DOT(IconEmoji.SUBSCRIBE.get() + "Подписка на DOT оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на DOT итак активная!"),
-    SOL(IconEmoji.SUBSCRIBE.get() + "Подписка на SOL оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на SOL итак активная!");
+    BTC(IconEmoji.SUBSCRIBE.get() + "Подписка на BTC оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на BTC и так активная!"),
+    ETH(IconEmoji.SUBSCRIBE.get() + "Подписка на ETH оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на ETH и так активная!"),
+    BNB(IconEmoji.SUBSCRIBE.get() + "Подписка на BNB оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на BNB и так активная!"),
+    UNI(IconEmoji.SUBSCRIBE.get() + "Подписка на UNI оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на UNI и так активная!"),
+    DOT(IconEmoji.SUBSCRIBE.get() + "Подписка на DOT оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на DOT и так активная!"),
+    SOL(IconEmoji.SUBSCRIBE.get() + "Подписка на SOL оформлена!", IconEmoji.EXCLAMATION.get() + "Подписка на SOL и так активная!");
 
     @Getter
     private String notActiveMessage;

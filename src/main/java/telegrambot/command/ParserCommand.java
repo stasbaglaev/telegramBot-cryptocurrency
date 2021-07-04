@@ -4,11 +4,10 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 public class ParserCommand {
     private static final Logger LOGGER = LogManager.getLogger(ParserCommand.class);
     private static final String PREFIX_FOR_COMMAND = "/";
-    private final String DELIMITER_COMMAND_BOTNAME = "@";
+    private static final String DELIMITER_COMMAND_BOT_NAME = "@";
     private final String botName;
 
     public ParserCommand(String botName) {
@@ -40,20 +39,13 @@ public class ParserCommand {
         return result;
     }
 
-
     private String cutCommandFromFullText(String text) {
         if (text.startsWith(PREFIX_FOR_COMMAND)) {
-            return text.contains(DELIMITER_COMMAND_BOTNAME) ?
-                    text.substring(1, text.indexOf(DELIMITER_COMMAND_BOTNAME)) :
+            return text.contains(DELIMITER_COMMAND_BOT_NAME) ?
+                    text.substring(1, text.indexOf(DELIMITER_COMMAND_BOT_NAME)) :
                     text.substring(1);
         } else return text;
     }
-
-//    private String cutCommandFromFullText(String text) {
-//        return text.contains(DELIMITER_COMMAND_BOTNAME) ?
-//                text.substring(1, text.indexOf(DELIMITER_COMMAND_BOTNAME)) :
-//                text.substring(1);
-//    }
 
     private Command getCommandFromText(String text) {
         if (text.equals(Command.REQUEST.getName())) {
@@ -70,8 +62,7 @@ public class ParserCommand {
             return Command.DUMPING;
         } else if (text.equals(Command.DUMPINGBTC.getName())) {
             return Command.DUMPINGBTC;
-        }
-        else {
+        } else {
             String upperCaseText = text.toUpperCase().trim();
             Command command = Command.NONE;
             try {
@@ -96,8 +87,8 @@ public class ParserCommand {
     }
 
     private boolean isCommandForMe(String command) {
-        if (command.contains(DELIMITER_COMMAND_BOTNAME)) {
-            String botNameForEqual = command.substring(command.indexOf(DELIMITER_COMMAND_BOTNAME) + 1);
+        if (command.contains(DELIMITER_COMMAND_BOT_NAME)) {
+            String botNameForEqual = command.substring(command.indexOf(DELIMITER_COMMAND_BOT_NAME) + 1);
             return botName.equals(botNameForEqual);
         }
         return true;
@@ -106,6 +97,6 @@ public class ParserCommand {
     private boolean isCommand(String text) {
         return ((text.startsWith(PREFIX_FOR_COMMAND)) || (text.equals(Command.SUBSCRIBE.getName())) || (text.equals(Command.REQUEST.getName())) ||
                 (text.equals(Command.UNSUBSCRIBE.getName())) || (text.equals(Command.HELP.getName())) || (text.equals(Command.GRAPH.getName()))
-                || (text.equals(Command.DUMPING.getName()))|| (text.equals(Command.DUMPINGBTC.getName())));
+                || (text.equals(Command.DUMPING.getName())) || (text.equals(Command.DUMPINGBTC.getName())));
     }
 }

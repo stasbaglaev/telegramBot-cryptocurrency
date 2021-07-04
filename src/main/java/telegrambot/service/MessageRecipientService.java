@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import telegrambot.ability.LineChartCrypts;
 import telegrambot.ability.SubscriptionInformationCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
@@ -13,6 +14,7 @@ import telegrambot.command.ParsedCommand;
 import telegrambot.command.ParserCommand;
 import telegrambot.entity.Crypt;
 import telegrambot.handler.*;
+import telegrambot.message.LineChart;
 import telegrambot.message.Subscription;
 import telegrambot.message.Unsubscription;
 
@@ -23,6 +25,7 @@ public class MessageRecipientService implements Runnable {
     private final TelegramBot telegramBot;
     private final ParserCommand parserCommand;
     private static final SubscriptionInformationCrypts subscriptionInformationCrypts = new SubscriptionInformationCrypts();
+    private static final LineChartCrypts lineChartCrypts = new LineChartCrypts();
     private static final String btcName = Crypt.BTC.getName();
     private static final String ethName = Crypt.ETH.getName();
     private static final String bnbName = Crypt.BNB.getName();
@@ -73,7 +76,6 @@ public class MessageRecipientService implements Runnable {
             }
 
             AbstractHandler handlerForCommand = getHandlerForCommand(parsedCommand.getCommand());
-
             String operationResult = handlerForCommand.operate(chatId.toString(), parsedCommand, update);
 
             if (!"".equals(operationResult)) {
@@ -86,6 +88,7 @@ public class MessageRecipientService implements Runnable {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             checkSubscription(callbackQuery);
             checkUnsubscription(callbackQuery);
+            checkBuildLineChart(callbackQuery);
             Long chatId = callbackQuery.getMessage().getChat().getId();
             SendMessage messageOut = new SendMessage();
             messageOut.setChatId(chatId);
@@ -126,6 +129,14 @@ public class MessageRecipientService implements Runnable {
         }else if (callbackQuery.getData().equals(Unsubscription.SOL.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(solName, chatId);
         }
+    }
+
+    private static void checkBuildLineChart(CallbackQuery callbackQuery){
+        String chatId = Long.toString(callbackQuery.getMessage().getChatId());
+        if (callbackQuery.getData().equals(LineChart.BTC.getBuildLineChartMessage())) {
+            //lineChartCrypts.getLineChartCrypts(btcName);
+        }
+
     }
 
 
