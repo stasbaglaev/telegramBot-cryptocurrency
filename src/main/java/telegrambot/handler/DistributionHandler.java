@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.bot.TelegramBot;
-import telegrambot.command.IconEmoji;
 import telegrambot.command.ParsedCommand;
 import telegrambot.entity.Crypt;
 import telegrambot.service.database.ConnectionSql;
@@ -20,8 +19,7 @@ import java.util.Objects;
 public class DistributionHandler extends AbstractHandler implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(DistributionHandler.class);
     private static final String END_LINE = "\n";
-    private static final int SENDER_SLEEP_TIME = 30000;
-
+    private static final int SENDER_SLEEP_TIME = 20000;
 
     public DistributionHandler(TelegramBot telegramBot) {
         super(telegramBot);
@@ -100,9 +98,9 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
 
     private static List<String> getIdChats() {
         List<String> listChatId = new LinkedList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try {
-            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement;
             String sqlQuery = "SELECT DISTINCT chatID FROM subscription";
             preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             resultSet = preparedStatement.executeQuery();
@@ -123,9 +121,9 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
 
     public static List<String> getSubscription(String chatId) {
         List<String> listSubscription = new LinkedList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try {
-            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement;
             String sqlQuery = "SELECT crypt, chatID, date FROM subscription where chatID=?";
             preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, chatId);
@@ -142,12 +140,6 @@ public class DistributionHandler extends AbstractHandler implements Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        if (!listSubscription.contains(name)) {
-//
-//        }
-
-
         return listSubscription;
     }
 

@@ -97,48 +97,47 @@ public class MessageRecipientService implements Runnable {
         }
     }
 
-    private static void checkSubscription(CallbackQuery callbackQuery){
+    private static void checkSubscription(CallbackQuery callbackQuery) {
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
         if (callbackQuery.getData().equals(Subscription.BTC.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(btcName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.ETH.getNotActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Subscription.ETH.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(ethName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.BNB.getNotActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Subscription.BNB.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(bnbName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.UNI.getNotActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Subscription.UNI.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(uniName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.DOT.getNotActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Subscription.DOT.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(dotName, chatId);
-        }else if (callbackQuery.getData().equals(Subscription.SOL.getNotActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Subscription.SOL.getNotActiveMessage())) {
             subscriptionInformationCrypts.updateDB(solName, chatId);
         }
     }
 
-    private static void checkUnsubscription(CallbackQuery callbackQuery){
+    private static void checkUnsubscription(CallbackQuery callbackQuery) {
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
         if (callbackQuery.getData().equals(Unsubscription.BTC.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(btcName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.ETH.getActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Unsubscription.ETH.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(ethName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.BNB.getActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Unsubscription.BNB.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(bnbName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.UNI.getActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Unsubscription.UNI.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(uniName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.DOT.getActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Unsubscription.DOT.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(dotName, chatId);
-        }else if (callbackQuery.getData().equals(Unsubscription.SOL.getActiveMessage())) {
+        } else if (callbackQuery.getData().equals(Unsubscription.SOL.getActiveMessage())) {
             subscriptionInformationCrypts.deleteDB(solName, chatId);
         }
     }
 
-    private static void checkBuildLineChart(CallbackQuery callbackQuery){
+    private static void checkBuildLineChart(CallbackQuery callbackQuery) {
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
         if (callbackQuery.getData().equals(LineChart.BTC.getBuildLineChartMessage())) {
             //lineChartCrypts.getLineChartCrypts(btcName);
         }
 
     }
-
 
 
     private AbstractHandler getHandlerForCommand(Command command) {

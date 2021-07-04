@@ -1,10 +1,9 @@
 package telegrambot.message;
 
 import lombok.AllArgsConstructor;
-        import lombok.Getter;
-        import lombok.NoArgsConstructor;
-        import telegrambot.ability.SubscriptionInformationCrypts;
-        import telegrambot.command.IconEmoji;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import telegrambot.command.IconEmoji;
 
 
 @AllArgsConstructor

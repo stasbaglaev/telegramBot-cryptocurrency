@@ -39,7 +39,6 @@ public class SystemHandler extends AbstractHandler {
         String displayedMessage = "Привет, *" + userNameInChat + "*! " +
                 "Меня зовут " + telegramBot.getBotName() + END_LINE + END_LINE +
                 "Для навигации используйте меню " + IconEmoji.POINTER_DOWN.get();
-        //sendMessage.setReplyMarkup(replyKeyboardMarkup);
         getMenu();
         return new SendMessage().setChatId(chatId)
                 .setReplyMarkup(replyKeyboardMarkup)
@@ -61,7 +60,6 @@ public class SystemHandler extends AbstractHandler {
                 .enableMarkdown(true)
                 .setText(text.toString());
     }
-
 
     private static void getMenu() {
         ArrayList<KeyboardRow> keyboard = new ArrayList<>();
@@ -86,18 +84,4 @@ public class SystemHandler extends AbstractHandler {
         keyboard.add(keyboardFirstRow3);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
-
-
-
-    /*public static SendMessage sendInlineKeyBoardListCurrency(long chatId) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("USD").setCallbackData("USD"));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("EURO").setCallbackData("EURO"));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("RUB").setCallbackData("RUB"));
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        rowList.add(keyboardButtonsRow1);
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return new SendMessage().setChatId(chatId).setText("Выбери валюту:").setReplyMarkup(inlineKeyboardMarkup);
-    }*/
 }

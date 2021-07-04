@@ -47,12 +47,12 @@ public class SubscriptionInformationCryptsHandler extends AbstractHandler {
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
 
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BTC_NAME).setCallbackData(Subscription.determineStatus(Subscription.BTC, BTC_NAME,chatId)));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ETH_NAME).setCallbackData(Subscription.determineStatus(Subscription.ETH, ETH_NAME,chatId)));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BNB_NAME).setCallbackData(Subscription.determineStatus(Subscription.BNB, BNB_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(UNI_NAME).setCallbackData(Subscription.determineStatus(Subscription.UNI, UNI_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(DOT_NAME).setCallbackData(Subscription.determineStatus(Subscription.DOT, DOT_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(SOL_NAME).setCallbackData(Subscription.determineStatus(Subscription.SOL, SOL_NAME,chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BTC_NAME).setCallbackData(Subscription.determineStatus(Subscription.BTC, BTC_NAME, chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ETH_NAME).setCallbackData(Subscription.determineStatus(Subscription.ETH, ETH_NAME, chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BNB_NAME).setCallbackData(Subscription.determineStatus(Subscription.BNB, BNB_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(UNI_NAME).setCallbackData(Subscription.determineStatus(Subscription.UNI, UNI_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(DOT_NAME).setCallbackData(Subscription.determineStatus(Subscription.DOT, DOT_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(SOL_NAME).setCallbackData(Subscription.determineStatus(Subscription.SOL, SOL_NAME, chatId)));
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);

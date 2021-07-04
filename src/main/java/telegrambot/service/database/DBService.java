@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class RunService {
-    private static final Logger LOGGER = LogManager.getLogger(RunService.class);
+public class DBService {
+    private static final Logger LOGGER = LogManager.getLogger(DBService.class);
     private static final LinkedHashMap<String, Long> cryptsPriceUsdMap = new LinkedHashMap<>();
     private static final LinkedHashMap<String, Long> cryptsPriceEurMap = new LinkedHashMap<>();
     private static final LinkedHashMap<String, Long> cryptsPriceRubMap = new LinkedHashMap<>();
@@ -55,7 +55,7 @@ public class RunService {
 
     private static void getPriceCrypts(List<CoinMarkets> coinMarketsCurrency, LinkedHashMap<String, Long> cryptsPriceMap) {
         for (CoinMarkets element : coinMarketsCurrency) {
-            for (String s : RunService.actualCrypt) {
+            for (String s : DBService.actualCrypt) {
                 if (s.equals(element.getName())) {
                     String nameCrypt = element.getName();
                     Long priceCrypt = element.getCurrentPrice();
@@ -69,6 +69,7 @@ public class RunService {
         List<CoinMarkets> coinMarketsCurrencyUsd = client.getCoinMarkets(Currency.USD);
         List<CoinMarkets> coinMarketsCurrencyRub = client.getCoinMarkets(Currency.RUB);
         List<CoinMarkets> coinMarketsCurrencyEur = client.getCoinMarkets(Currency.EUR);
+        System.out.println(client.getCoinMarkets(Currency.USD,"","market_cap_desc",2,0,true,"1h"));
         getPriceCrypts(coinMarketsCurrencyUsd, cryptsPriceUsdMap);
         getPriceCrypts(coinMarketsCurrencyRub, cryptsPriceRubMap);
         getPriceCrypts(coinMarketsCurrencyEur, cryptsPriceEurMap);
@@ -89,4 +90,3 @@ public class RunService {
         }
     }
 }
-

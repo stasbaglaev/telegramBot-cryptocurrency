@@ -11,7 +11,7 @@ import telegrambot.bot.TelegramBot;
 
 public class SubscriptionMailingService implements Runnable {
     private final TelegramBot telegramBot;
-    private static final Logger LOGGER = LogManager.getLogger(MessageSenderService.class);
+    private static final Logger LOGGER = LogManager.getLogger(SubscriptionMailingService.class);
     private static final int SENDER_SLEEP_TIME = 1000;
 
     public SubscriptionMailingService(TelegramBot telegramBot) {
@@ -41,12 +41,11 @@ public class SubscriptionMailingService implements Runnable {
     private void send(Object object) {
         try {
             MessageSenderService.MessageType messageType = messageType(object);
-            LOGGER.info("Получить тип объекта " + messageType);
             switch (messageType) {
                 case EXECUTE:
                     if (SendMessage.class.equals(object.getClass())) {
                         BotApiMethod<Message> message = (BotApiMethod<Message>) object;
-                        LOGGER.info("Use Execute for " + object);
+                        LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute(message);
                         break;
                     }
@@ -59,7 +58,6 @@ public class SubscriptionMailingService implements Runnable {
     }
 
     private MessageSenderService.MessageType messageType(Object object) {
-        LOGGER.info("Получить тип объекта " + object.getClass());
         if ((object instanceof PartialBotApiMethod)) return MessageSenderService.MessageType.EXECUTE;
         return MessageSenderService.MessageType.NOT_DETECTED;
     }

@@ -23,7 +23,7 @@ public enum Unsubscription {
     private String notActiveMessage;
 
     public static String determineStatus(Unsubscription crypt, String name, String chatId) {
-        String message = null;
+        String message;
         if (!SubscriptionInformationCrypts.getSubscription(chatId).contains(name)) {
             message = crypt.getNotActiveMessage();
         } else {

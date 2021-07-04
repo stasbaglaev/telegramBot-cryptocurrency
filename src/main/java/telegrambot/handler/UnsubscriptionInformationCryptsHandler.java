@@ -14,7 +14,7 @@ import telegrambot.message.Unsubscription;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnsubscriptionInformationCryptsHandler extends AbstractHandler{
+public class UnsubscriptionInformationCryptsHandler extends AbstractHandler {
     private static final String BTC_NAME = Crypt.BTC.getName();
     private static final String ETH_NAME = Crypt.ETH.getName();
     private static final String BNB_NAME = Crypt.BNB.getName();
@@ -47,12 +47,12 @@ public class UnsubscriptionInformationCryptsHandler extends AbstractHandler{
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
 
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BTC_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.BTC, BTC_NAME,chatId)));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ETH_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.ETH, ETH_NAME,chatId)));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BNB_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.BNB, BNB_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(UNI_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.UNI, UNI_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(DOT_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.DOT, DOT_NAME,chatId)));
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(SOL_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.SOL, SOL_NAME,chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BTC_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.BTC, BTC_NAME, chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ETH_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.ETH, ETH_NAME, chatId)));
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BNB_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.BNB, BNB_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(UNI_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.UNI, UNI_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(DOT_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.DOT, DOT_NAME, chatId)));
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(SOL_NAME).setCallbackData(Unsubscription.determineStatus(Unsubscription.SOL, SOL_NAME, chatId)));
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);

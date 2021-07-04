@@ -7,8 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.ability.DumpingCrypts;
-import telegrambot.ability.RequestInformationCrypts;
-import telegrambot.ability.SubscriptionInformationCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.IconEmoji;
@@ -20,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DumpingCryptsHandler extends AbstractHandler {
-    private static final Logger LOGGER = LogManager.getLogger(SubscriptionInformationCrypts.class);
-    private static final String END_LINE = "\n";
-    private static final RequestInformationCrypts requestInformationCrypts = new RequestInformationCrypts();
+    private static final Logger LOGGER = LogManager.getLogger(DumpingCryptsHandler.class);
     private static final String BTC_NAME = Crypt.BTC.getName();
     private static final String ETH_NAME = Crypt.ETH.getName();
     private static final String BNB_NAME = Crypt.BNB.getName();

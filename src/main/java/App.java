@@ -10,7 +10,6 @@ import telegrambot.service.MessageSenderService;
 import telegrambot.service.SubscriptionMailingService;
 
 public class App {
-
     private static final Logger log = LogManager.getLogger(App.class);
     private static final String BOT_NAME = "QwertyITbot";
     private static final String BOT_TOKEN = "1770547715:AAGeAZ73iAUM8CXR9rpn_18kjLCTG7jNVzU";
@@ -38,24 +37,24 @@ public class App {
             }
         }
 
-        Thread receiver = new Thread(messageRecipientService,"MessageRecipientService");
+        Thread receiver = new Thread(messageRecipientService, "MessageRecipientService");
         receiver.setDaemon(true);
         receiver.setPriority(PRIORITY_FOR_RECIPIENT);
         receiver.start();
 
-        Thread sender = new Thread(messageSenderService,"MessageSenderService");
+        Thread sender = new Thread(messageSenderService, "MessageSenderService");
         sender.setDaemon(true);
-        sender.setPriority(Thread. MIN_PRIORITY);
+        sender.setPriority(Thread.MIN_PRIORITY);
         sender.start();
 
-        Thread subscriptionMailer = new Thread(subscriptionMailingService,"MessageSenderBySubscriptionService");
+        Thread subscriptionMailer = new Thread(subscriptionMailingService, "MessageSenderBySubscriptionService");
         subscriptionMailer.setDaemon(true);
-        subscriptionMailer.setPriority(Thread. MIN_PRIORITY);
+        subscriptionMailer.setPriority(Thread.MIN_PRIORITY);
         subscriptionMailer.start();
 
-        Thread distributionHandlers = new Thread(distributionHandler,"SubscriptionService");
+        Thread distributionHandlers = new Thread(distributionHandler, "SubscriptionService");
         distributionHandlers.setDaemon(true);
-        distributionHandlers.setPriority(Thread. MIN_PRIORITY);
+        distributionHandlers.setPriority(Thread.MIN_PRIORITY);
         distributionHandlers.start();
     }
 }

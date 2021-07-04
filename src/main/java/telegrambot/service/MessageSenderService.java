@@ -8,18 +8,12 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import telegrambot.ability.LineChartCrypts;
 import telegrambot.bot.TelegramBot;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class MessageSenderService implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(MessageSenderService.class);
     private static final int SENDER_SLEEP_TIME = 1000;
     private final TelegramBot telegramBot;
-    private static final LineChartCrypts lineChartCrypts = new LineChartCrypts();
 
     public MessageSenderService(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
@@ -60,29 +54,17 @@ public class MessageSenderService implements Runnable {
                         PartialBotApiMethod<Message> message = (PartialBotApiMethod<Message>) object;
                         LOGGER.debug("Use Execute for " + object);
                         telegramBot.execute((SendPhoto) message);
-//                        try {
-//                            Files.delete(Paths.get(lineChartCrypts.getFILE_NAME()));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
                         break;
                     }
-
                 default:
                     LOGGER.warn("Cant detect type of object. " + object);
             }
         } catch (TelegramApiException e) {
-
-//            telegramBot.sendQueue.add(new SendMessage().setChatId(chatId)
-//                    .setText("Вы слишком часто отправляете запросы"));
             LOGGER.error("TelegramApiRequestException " + e.getMessage(), e);
         }
     }
 
-
-
     private MessageType messageType(Object object) {
-        LOGGER.debug("Получить тип объекта " + object.getClass());
         if ((object instanceof PartialBotApiMethod)) return MessageType.EXECUTE;
         return MessageType.NOT_DETECTED;
     }
