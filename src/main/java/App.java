@@ -4,8 +4,10 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import telegrambot.bot.TelegramBot;
+import telegrambot.handler.DistributionHandler;
 import telegrambot.service.MessageRecipientService;
 import telegrambot.service.MessageSenderService;
+import telegrambot.service.SubscriptionMailingService;
 
 public class App {
 
@@ -21,6 +23,9 @@ public class App {
         TelegramBot telegramBot = new TelegramBot(BOT_NAME, BOT_TOKEN);
         MessageRecipientService messageRecipientService = new MessageRecipientService(telegramBot);
         MessageSenderService messageSenderService = new MessageSenderService(telegramBot);
+        SubscriptionMailingService subscriptionMailingService = new SubscriptionMailingService(telegramBot);
+        DistributionHandler distributionHandler = new DistributionHandler(telegramBot);
+
         try {
             telegramBotsApi.registerBot(telegramBot);
             log.info("TelegramAPI started!");
@@ -42,5 +47,15 @@ public class App {
         sender.setDaemon(true);
         sender.setPriority(Thread. MIN_PRIORITY);
         sender.start();
+
+        Thread subscriptionMailer = new Thread(subscriptionMailingService,"MessageSenderBySubscriptionService");
+        subscriptionMailer.setDaemon(true);
+        subscriptionMailer.setPriority(Thread. MIN_PRIORITY);
+        subscriptionMailer.start();
+
+        Thread distributionHandlers = new Thread(distributionHandler,"SubscriptionService");
+        distributionHandlers.setDaemon(true);
+        distributionHandlers.setPriority(Thread. MIN_PRIORITY);
+        distributionHandlers.start();
     }
 }

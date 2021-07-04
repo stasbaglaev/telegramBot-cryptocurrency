@@ -2,7 +2,7 @@ package telegrambot.ability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.database.ConnectionSql;
+import telegrambot.service.database.ConnectionSql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +15,6 @@ public class SubscriptionInformationCrypts {
     private static final Logger LOGGER = LogManager.getLogger(SubscriptionInformationCrypts.class);
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yy.MM.dd HH:mm");
 
-
-    public static void main(String[] args) {
-
-    }
 
     public static List<String> getSubscription(String chatId) {
         List<String> listCrypt = new LinkedList<>();
@@ -62,12 +58,8 @@ public class SubscriptionInformationCrypts {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Failed to add information on subscription to table 'my_db.subscription'");
-            //return "Подписка на криптовалюту " + name + " не выполнена !";
         }
-        //return "Подписка на криптовалюту " + name + " выполнена успешно!";
     }
-
-
 
     public void deleteDB(String name, String chatId) {
         List<String> listCryptsSubscription = getSubscription(chatId);
@@ -86,9 +78,7 @@ public class SubscriptionInformationCrypts {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Failed to delete information on subscription to table 'my_db.subscription'");
-            //return "Попытка отписаться от информации по криптовалюте " + name + " не успешна!";
         }
-        //return "Вы отписались от информации по криптовалюте " + name + "!";
     }
 
 

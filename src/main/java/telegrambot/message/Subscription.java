@@ -22,7 +22,6 @@ public enum Subscription {
     @Getter
     private String activeMessage;
 
-
     public static String determineStatus(Subscription crypt, String name, String chatId) {
         String message = null;
         if (!SubscriptionInformationCrypts.getSubscription(chatId).contains(name)) {

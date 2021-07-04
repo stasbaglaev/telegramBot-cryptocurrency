@@ -10,7 +10,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import service.database.ConnectionSql;
+import telegrambot.service.database.ConnectionSql;
 import telegrambot.service.MessageRecipientService;
 
 import javax.imageio.ImageIO;

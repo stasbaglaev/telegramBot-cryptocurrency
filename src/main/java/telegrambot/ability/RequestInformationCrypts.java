@@ -2,7 +2,7 @@ package telegrambot.ability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.database.ConnectionSql;
+import telegrambot.service.database.ConnectionSql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +12,8 @@ import java.util.List;
 
 public class RequestInformationCrypts {
     private static final Logger LOGGER = LogManager.getLogger(RequestInformationCrypts.class);
+    private static final String END_LINE = "\n";
+
 
 
 //    public static void main(String[] args) {
@@ -224,4 +226,5 @@ public class RequestInformationCrypts {
         }
         return null;
     }
+
 }

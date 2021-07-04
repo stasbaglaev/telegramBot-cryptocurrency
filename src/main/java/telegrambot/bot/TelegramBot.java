@@ -15,6 +15,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final String botName;
     private final String botToken;
     public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
+    public final Queue<Object> sendSubscriptionQueue = new ConcurrentLinkedQueue<>();
     public final Queue<Object> receiveQueue = new ConcurrentLinkedQueue<>();
 
     public TelegramBot(String botName, String botToken) {

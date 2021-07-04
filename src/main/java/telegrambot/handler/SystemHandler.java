@@ -55,7 +55,7 @@ public class SystemHandler extends AbstractHandler {
         text.append("/subscribe - подписаться на получение рассылки с данными по курсам криптовалют").append(END_LINE);
         text.append("/unsubscribe - отписаться от получения рассылки с данными по курсам криптовалют").append(END_LINE);
         text.append("/graph - построить график").append(END_LINE);
-        text.append("/help - вызвать описание командам").append(END_LINE);
+        text.append("/help - вызвать описание команд").append(END_LINE);
         return new SendMessage().setChatId(chatID)
                 .enableMarkdown(true)
                 .setText(text.toString());

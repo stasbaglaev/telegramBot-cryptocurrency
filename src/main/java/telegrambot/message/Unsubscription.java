@@ -1,6 +1,5 @@
 package telegrambot.message;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

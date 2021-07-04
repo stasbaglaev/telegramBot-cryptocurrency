@@ -23,12 +23,12 @@ public class LineChartCryptsHandler extends AbstractHandler {
 
 
     private static final PriceCrypts priceCrypts = new PriceCrypts();
-    private static final String btcName = Crypt.BTC.getName();
-    private static final String ethName = Crypt.ETH.getName();
-    private static final String bnbName = Crypt.BNB.getName();
-    private static final String uniName = Crypt.UNI.getName();
-    private static final String dotName = Crypt.DOT.getName();
-    private static final String solName = Crypt.SOL.getName();
+    private static final String BTC_NAME = Crypt.BTC.getName();
+    private static final String ETH_NAME = Crypt.ETH.getName();
+    private static final String BNB_NAME = Crypt.BNB.getName();
+    private static final String UNI_NAME = Crypt.UNI.getName();
+    private static final String DOT_NAME = Crypt.DOT.getName();
+    private static final String SOL_NAME = Crypt.SOL.getName();
 
 
     public LineChartCryptsHandler(TelegramBot telegramBot) {
@@ -103,23 +103,23 @@ public class LineChartCryptsHandler extends AbstractHandler {
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
 
-        String bitcoin = "BTC" + LineChartCrypts.getLineChartCrypts(btcName);
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(btcName).setCallbackData(bitcoin));
+        String bitcoin = "BTC" + LineChartCrypts.getLineChartCrypts(BTC_NAME);
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BTC_NAME).setCallbackData(bitcoin));
 
-        String ethereum = "ETH" + LineChartCrypts.getLineChartCrypts(ethName);
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ethName).setCallbackData(ethereum));
+        String ethereum = "ETH" + LineChartCrypts.getLineChartCrypts(ETH_NAME);
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(ETH_NAME).setCallbackData(ethereum));
 
-        String binance = "BNB" + LineChartCrypts.getLineChartCrypts(bnbName);
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(bnbName).setCallbackData(binance));
+        String binance = "BNB" + LineChartCrypts.getLineChartCrypts(BNB_NAME);
+        keyboardButtonsRow1.add(new InlineKeyboardButton().setText(BNB_NAME).setCallbackData(binance));
 
-        String uniswap = "UNI" + LineChartCrypts.getLineChartCrypts(uniName);
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(uniName).setCallbackData(uniswap));
+        String uniswap = "UNI" + LineChartCrypts.getLineChartCrypts(UNI_NAME);
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(UNI_NAME).setCallbackData(uniswap));
 
-        String polkadot = "DOT" + LineChartCrypts.getLineChartCrypts(dotName);
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(dotName).setCallbackData(polkadot));
+        String polkadot = "DOT" + LineChartCrypts.getLineChartCrypts(DOT_NAME);
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(DOT_NAME).setCallbackData(polkadot));
 
-        String solana = "SOL" + LineChartCrypts.getLineChartCrypts(solName);
-        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(solName).setCallbackData(solana));
+        String solana = "SOL" + LineChartCrypts.getLineChartCrypts(SOL_NAME);
+        keyboardButtonsRow2.add(new InlineKeyboardButton().setText(SOL_NAME).setCallbackData(solana));
 
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
