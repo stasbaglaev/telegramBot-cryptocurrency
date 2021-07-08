@@ -26,9 +26,9 @@ public class ParserCommand {
         if (isCommand(commandAndText.getKey())) {
             if (isCommandForMe(commandAndText.getKey())) {
                 String commandForParse = cutCommandFromFullText(commandAndText.getKey());
-                LOGGER.debug("commandForParse " + commandForParse);
+                LOGGER.info("commandForParse " + commandForParse);
                 Command commandFromText = getCommandFromText(commandForParse);
-                LOGGER.debug("commandFromText " + commandFromText);
+                LOGGER.info("commandFromText " + commandFromText);
                 result.setText(commandAndText.getValue());
                 result.setCommand(commandFromText);
             } else {
@@ -62,7 +62,30 @@ public class ParserCommand {
             return Command.DUMPING;
         } else if (text.equals(Command.DUMPINGBTC.getName())) {
             return Command.DUMPINGBTC;
-        } else {
+        } else if (text.equals(Command.DUMPINGETH.getName())) {
+            return Command.DUMPINGETH;
+        }else if (text.equals(Command.DUMPINGBNB.getName())) {
+            return Command.DUMPINGBNB;
+        }else if (text.equals(Command.DUMPINGUNI.getName())) {
+            return Command.DUMPINGUNI;
+        }else if (text.equals(Command.DUMPINGDOT.getName())) {
+            return Command.DUMPINGDOT;
+        }else if (text.equals(Command.DUMPINGSOL.getName())) {
+            return Command.DUMPINGSOL;
+        }else if (text.equals(Command.GRAPHBTC.getName())) {
+            return Command.GRAPHBTC;
+        }else if (text.equals(Command.GRAPHETH.getName())) {
+            return Command.GRAPHETH;
+        }else if (text.equals(Command.GRAPHBNB.getName())) {
+            return Command.GRAPHBNB;
+        }else if (text.equals(Command.GRAPHUNI.getName())) {
+            return Command.GRAPHUNI;
+        }else if (text.equals(Command.GRAPHDOT.getName())) {
+            return Command.GRAPHDOT;
+        }else if (text.equals(Command.GRAPHSOL.getName())) {
+            return Command.GRAPHSOL;
+        }
+        else {
             String upperCaseText = text.toUpperCase().trim();
             Command command = Command.NONE;
             try {
@@ -97,6 +120,10 @@ public class ParserCommand {
     private boolean isCommand(String text) {
         return ((text.startsWith(PREFIX_FOR_COMMAND)) || (text.equals(Command.SUBSCRIBE.getName())) || (text.equals(Command.REQUEST.getName())) ||
                 (text.equals(Command.UNSUBSCRIBE.getName())) || (text.equals(Command.HELP.getName())) || (text.equals(Command.GRAPH.getName()))
-                || (text.equals(Command.DUMPING.getName())) || (text.equals(Command.DUMPINGBTC.getName())));
+                || (text.equals(Command.DUMPING.getName())) || (text.equals(Command.DUMPINGBTC.getName())) || (text.equals(Command.DUMPINGETH.getName()))
+                || (text.equals(Command.DUMPINGBNB.getName())) || (text.equals(Command.DUMPINGUNI.getName())) || (text.equals(Command.DUMPINGDOT.getName()))
+                || (text.equals(Command.DUMPINGSOL.getName())) || (text.equals(Command.GRAPHBTC.getName())) || (text.equals(Command.GRAPHETH.getName()))
+                || (text.equals(Command.GRAPHBNB.getName())) || (text.equals(Command.GRAPHUNI.getName())) || (text.equals(Command.GRAPHDOT.getName()))
+                || (text.equals(Command.GRAPHSOL.getName())));
     }
 }

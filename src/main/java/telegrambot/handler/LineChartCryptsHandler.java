@@ -5,7 +5,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import telegrambot.ability.LineChartCrypts;
 import telegrambot.bot.TelegramBot;
 import telegrambot.command.Command;
 import telegrambot.command.IconEmoji;
@@ -38,7 +37,19 @@ public class LineChartCryptsHandler extends AbstractHandler {
         if (command == Command.GRAPH) {
             telegramBot.sendQueue.add(sendMessageStatusCommand(chatId));
             telegramBot.sendQueue.add(sendInlineKeyBoardListCrypts(chatId));
-       }
+        } else if (command == Command.GRAPHBTC) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptBtc.jpeg"));
+        } else if (command == Command.GRAPHETH) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptEth.jpeg"));
+        } else if (command == Command.GRAPHBNB) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptBnb.jpeg"));
+        }else if (command == Command.GRAPHUNI) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptUni.jpeg"));
+        }else if (command == Command.GRAPHDOT) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptDot.jpeg"));
+        }else if (command == Command.GRAPHSOL) {
+            telegramBot.sendQueue.add(sendLineChartCrypts(chatId, "LineChartCryptSol.jpeg"));
+        }
         return "";
     }
 
@@ -48,9 +59,9 @@ public class LineChartCryptsHandler extends AbstractHandler {
                 .setText(IconEmoji.HOURGLASS.get() + "Список криптовалют формируется, пожалуйста, подождите");
     }
 
-    private static SendPhoto sendLineChartCrypts(String chatId) {
+    private static SendPhoto sendLineChartCrypts(String chatId, String fileName) {
         return new SendPhoto().setChatId(chatId)
-                .setPhoto(new File(LineChartCrypts.getFILE_NAME()));
+                .setPhoto(new File(fileName));
     }
 
     private static SendMessage sendInlineKeyBoardListCrypts(String chatId) {

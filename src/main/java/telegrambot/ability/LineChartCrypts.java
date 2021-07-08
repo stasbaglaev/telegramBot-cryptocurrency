@@ -26,7 +26,7 @@ public class LineChartCrypts {
 
     private static final Logger LOGGER = LogManager.getLogger(LineChartCrypts.class);
     @Getter
-    public static final String FILE_NAME = "LineChartCrypt.jpeg";
+    public static String FILE_NAME = "LineChartCrypt.jpeg";
 
     private static final DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
 
@@ -61,6 +61,8 @@ public class LineChartCrypts {
                         int value = resultSet.getInt(currency);
                         lineChartDataset.addValue(value, currency, date);
                     }
+
+
                     createLineChart(nameCrypt);
                 }
             } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class LineChartCrypts {
     }
 
     private static ResultSet select(String nameCrypt) {
-        String sqlQuery = "SELECT name, date, USD, EUR, RUB FROM crypts where name = ?";
+        String sqlQuery = "SELECT name, date, USD, EUR, RUB FROM crypts where name = ? AND date>=curdate() AND curdate() group by extract(hour from date)";
         try {
             PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);
             preparedStatement.setString(1, nameCrypt);
@@ -84,7 +86,24 @@ public class LineChartCrypts {
         return null;
     }
 
+    private static void approveFileName(String nameCrypt) {
+        if (nameCrypt.equals("BTC")) {
+            FILE_NAME = "LineChartCryptBtc.jpeg";
+        } else if (nameCrypt.equals("ETH")) {
+            FILE_NAME = "LineChartCryptEth.jpeg";
+        }else if (nameCrypt.equals("BNB")) {
+            FILE_NAME = "LineChartCryptBnb.jpeg";
+        }else if (nameCrypt.equals("UNI")) {
+            FILE_NAME = "LineChartCryptUni.jpeg";
+        }else if (nameCrypt.equals("DOT")) {
+            FILE_NAME = "LineChartCryptDot.jpeg";
+        }else if (nameCrypt.equals("SOL")) {
+            FILE_NAME = "LineChartCryptSol.jpeg";
+    }
+}
+
     private static void createLineChart(String nameCrypt) {
+        approveFileName(nameCrypt);
         JFreeChart lineChartObject = ChartFactory.createLineChart(
                 "Курс " + nameCrypt, "Период",
                 "Стоимость",

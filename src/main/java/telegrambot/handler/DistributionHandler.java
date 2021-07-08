@@ -19,7 +19,7 @@ import java.util.Objects;
 public class DistributionHandler extends AbstractHandler implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(DistributionHandler.class);
     private static final String END_LINE = "\n";
-    private static final int SENDER_SLEEP_TIME = 20000;
+    private static final int SENDER_SLEEP_TIME = 10000;
 
     public DistributionHandler(TelegramBot telegramBot) {
         super(telegramBot);

@@ -43,7 +43,7 @@ public class MessageRecipientService implements Runnable {
         LOGGER.info("[STARTED] MessageRecipientService.  Bot class: " + telegramBot.getBotName());
         while (true) {
             for (Object object = telegramBot.receiveQueue.poll(); object != null; object = telegramBot.receiveQueue.poll()) {
-                //LOGGER.info("New object for analyze in queue " + object);
+                LOGGER.debug("New object for analyze in queue " + object);
                 analyze(object);
             }
             try {
@@ -56,11 +56,21 @@ public class MessageRecipientService implements Runnable {
     }
 
     private void analyze(Object object) {
+        LOGGER.debug("object " + object);
         if (object instanceof Update) {
             Update update = (Update) object;
             LOGGER.debug("Update recipient: " + update);
             analyzeForUpdateType(update);
-        } else LOGGER.warn("Cant operate type of object: " + object.toString());
+        } else {
+            String text = object.toString();
+            LOGGER.debug("text " + text);
+            String chatId = text.substring(text.indexOf(" ")).trim();
+            ParsedCommand parsedCommand = parserCommand.getParsedCommand(text);
+            AbstractHandler handlerForCommand = getHandlerForCommand(parsedCommand.getCommand());
+            Update update = new Update();
+            String operationResult = handlerForCommand.operate(chatId, parsedCommand, update);
+            LOGGER.debug("Cant operate type of object: " + object.toString());
+        }
     }
 
     private void analyzeForUpdateType(Update update) {
@@ -71,6 +81,7 @@ public class MessageRecipientService implements Runnable {
             ParsedCommand parsedCommand = new ParsedCommand(Command.NONE, "");
             if (message.hasText()) {
                 String text = message.getText();
+                LOGGER.debug("text " + text);
                 parsedCommand = parserCommand.getParsedCommand(text);
                 LOGGER.debug("ParsedCommand " + parsedCommand.getCommand());
             }
@@ -131,12 +142,27 @@ public class MessageRecipientService implements Runnable {
         }
     }
 
-    private static void checkBuildLineChart(CallbackQuery callbackQuery) {
+    private void checkBuildLineChart(CallbackQuery callbackQuery) {
         String chatId = Long.toString(callbackQuery.getMessage().getChatId());
         if (callbackQuery.getData().equals(LineChart.BTC.getBuildLineChartMessage())) {
-            //lineChartCrypts.getLineChartCrypts(btcName);
+            lineChartCrypts.getLineChartCrypts(btcName);
+            telegramBot.receiveQueue.add("/GRAPHBTC " + chatId);
+        } else if (callbackQuery.getData().equals(LineChart.ETH.getBuildLineChartMessage())) {
+            lineChartCrypts.getLineChartCrypts(ethName);
+            telegramBot.receiveQueue.add("/GRAPHETH " + chatId);
+        } else if (callbackQuery.getData().equals(LineChart.BNB.getBuildLineChartMessage())) {
+            lineChartCrypts.getLineChartCrypts(bnbName);
+            telegramBot.receiveQueue.add("/GRAPHBNB " + chatId);
+        } else if (callbackQuery.getData().equals(LineChart.UNI.getBuildLineChartMessage())) {
+            lineChartCrypts.getLineChartCrypts(uniName);
+            telegramBot.receiveQueue.add("/GRAPHUNI " + chatId);
+        } else if (callbackQuery.getData().equals(LineChart.DOT.getBuildLineChartMessage())) {
+            lineChartCrypts.getLineChartCrypts(dotName);
+            telegramBot.receiveQueue.add("/GRAPHDOT " + chatId);
+        } else if (callbackQuery.getData().equals(LineChart.SOL.getBuildLineChartMessage())) {
+            lineChartCrypts.getLineChartCrypts(solName);
+            telegramBot.receiveQueue.add("/GRAPHSOL " + chatId);
         }
-
     }
 
 
@@ -164,6 +190,12 @@ public class MessageRecipientService implements Runnable {
                 LOGGER.info("Handler for command[" + command + "] is: " + unsubscriptionInformationCryptsHandler);
                 return unsubscriptionInformationCryptsHandler;
             case GRAPH:
+            case GRAPHBTC:
+            case GRAPHETH:
+            case GRAPHBNB:
+            case GRAPHUNI:
+            case GRAPHDOT:
+            case GRAPHSOL:
                 LineChartCryptsHandler lineChartCryptsHandler = new LineChartCryptsHandler(telegramBot);
                 LOGGER.info("Handler for command[" + command + "] is: " + lineChartCryptsHandler);
                 return lineChartCryptsHandler;

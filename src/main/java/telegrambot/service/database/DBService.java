@@ -1,11 +1,10 @@
 package telegrambot.service.database;
 
+import com.crypto.cryptocompare.api.CryptoCompareApi;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import telegrambot.service.database.coingecko.CoinGeckoApiClient;
-import telegrambot.service.database.coingecko.constant.Currency;
-import telegrambot.service.database.coingecko.domain.Coins.CoinMarkets;
-import telegrambot.service.database.coingecko.impl.CoinGeckoApiClientImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,9 +15,6 @@ import java.util.List;
 
 public class DBService {
     private static final Logger LOGGER = LogManager.getLogger(DBService.class);
-    private static final LinkedHashMap<String, Long> cryptsPriceUsdMap = new LinkedHashMap<>();
-    private static final LinkedHashMap<String, Long> cryptsPriceEurMap = new LinkedHashMap<>();
-    private static final LinkedHashMap<String, Long> cryptsPriceRubMap = new LinkedHashMap<>();
     private static final String BITCOIN = "Bitcoin";
     private static final String ETHEREUM = "Ethereum";
     private static final String BINANCE_COIN = "Binance Coin";
@@ -32,19 +28,22 @@ public class DBService {
     public static void main(String[] args) {
         Thread run = new Thread(() -> {
             while (true) {
-                CoinGeckoApiClient client = new CoinGeckoApiClientImpl();
                 java.util.Date date = new java.util.Date();
-                generateMaps(client);
                 ConnectionSql.getConnection();
-                insertIntoDB("BTC", FORMAT.format(date), cryptsPriceUsdMap.get(BITCOIN), cryptsPriceEurMap.get(BITCOIN), cryptsPriceRubMap.get(BITCOIN));
-                insertIntoDB("ETH", FORMAT.format(date), cryptsPriceUsdMap.get(ETHEREUM), cryptsPriceEurMap.get(ETHEREUM), cryptsPriceRubMap.get(ETHEREUM));
-                insertIntoDB("BNB", FORMAT.format(date), cryptsPriceUsdMap.get(BINANCE_COIN), cryptsPriceEurMap.get(BINANCE_COIN), cryptsPriceRubMap.get(BINANCE_COIN));
-                insertIntoDB("UNI", FORMAT.format(date), cryptsPriceUsdMap.get(UNISWAP), cryptsPriceEurMap.get(UNISWAP), cryptsPriceRubMap.get(UNISWAP));
-                insertIntoDB("DOT", FORMAT.format(date), cryptsPriceUsdMap.get(POLKADOT), cryptsPriceEurMap.get(POLKADOT), cryptsPriceRubMap.get(POLKADOT));
-                insertIntoDB("SOL", FORMAT.format(date), cryptsPriceUsdMap.get(SOLANA), cryptsPriceEurMap.get(SOLANA), cryptsPriceRubMap.get(SOLANA));
+                JsonObject response = getCryptsInfo();
+                LOGGER.info(response);
+
+                insertIntoDB("BTC", FORMAT.format(date), response.get("BTC").getAsJsonObject().get("USD"), response.get("BTC").getAsJsonObject().get("EUR"), response.get("BTC").getAsJsonObject().get("RUB"));
+                insertIntoDB("ETH", FORMAT.format(date), response.get("ETH").getAsJsonObject().get("USD"), response.get("ETH").getAsJsonObject().get("EUR"), response.get("ETH").getAsJsonObject().get("RUB"));
+                insertIntoDB("BNB", FORMAT.format(date), response.get("BNB").getAsJsonObject().get("USD"), response.get("BNB").getAsJsonObject().get("EUR"), response.get("BNB").getAsJsonObject().get("RUB"));
+                insertIntoDB("UNI", FORMAT.format(date), response.get("UNI").getAsJsonObject().get("USD"), response.get("UNI").getAsJsonObject().get("EUR"), response.get("UNI").getAsJsonObject().get("RUB"));
+                insertIntoDB("DOT", FORMAT.format(date), response.get("DOT").getAsJsonObject().get("USD"), response.get("DOT").getAsJsonObject().get("EUR"), response.get("DOT").getAsJsonObject().get("RUB"));
+                insertIntoDB("SOL", FORMAT.format(date), response.get("SOL").getAsJsonObject().get("USD"), response.get("SOL").getAsJsonObject().get("EUR"), response.get("SOL").getAsJsonObject().get("RUB"));
                 LOGGER.info("INSERT INTO прошел успешно!");
+
+                getCryptsInfo();
                 try {
-                    Thread.sleep(3000); //1000 - 1 сек
+                    Thread.sleep(6000); //1000 - 1 сек
                 } catch (InterruptedException e) {
                     LOGGER.error("Error!");
                 }
@@ -53,29 +52,18 @@ public class DBService {
         run.start();
     }
 
-    private static void getPriceCrypts(List<CoinMarkets> coinMarketsCurrency, LinkedHashMap<String, Long> cryptsPriceMap) {
-        for (CoinMarkets element : coinMarketsCurrency) {
-            for (String s : DBService.actualCrypt) {
-                if (s.equals(element.getName())) {
-                    String nameCrypt = element.getName();
-                    Long priceCrypt = element.getCurrentPrice();
-                    cryptsPriceMap.put(nameCrypt, priceCrypt);
-                }
-            }
-        }
+    private static JsonObject getCryptsInfo(){
+        CryptoCompareApi cryptoCompareApi = new CryptoCompareApi();
+        JsonObject response = cryptoCompareApi.priceMulti(
+                "BTC,ETH,BNB,UNI,DOT,SOL",
+                "USD,EUR,RUB",
+                new LinkedHashMap<String, Object>() {{
+                    put("extraParams", "TestProject");
+                }});
+        return response;
     }
 
-    private static void generateMaps(CoinGeckoApiClient client) {
-        List<CoinMarkets> coinMarketsCurrencyUsd = client.getCoinMarkets(Currency.USD);
-        List<CoinMarkets> coinMarketsCurrencyRub = client.getCoinMarkets(Currency.RUB);
-        List<CoinMarkets> coinMarketsCurrencyEur = client.getCoinMarkets(Currency.EUR);
-        System.out.println(client.getCoinMarkets(Currency.USD,"","market_cap_desc",2,0,true,"1h"));
-        getPriceCrypts(coinMarketsCurrencyUsd, cryptsPriceUsdMap);
-        getPriceCrypts(coinMarketsCurrencyRub, cryptsPriceRubMap);
-        getPriceCrypts(coinMarketsCurrencyEur, cryptsPriceEurMap);
-    }
-
-    private static void insertIntoDB(String nameCrypt, String date, Long valueUSD, Long valueEUR, Long valueRUB) {
+    private static void insertIntoDB(String nameCrypt, String date, JsonElement valueUSD, JsonElement valueEUR, JsonElement valueRUB) {
         String sqlQuery = "INSERT INTO crypts(name, date, USD, EUR, RUB) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = ConnectionSql.getConnection().prepareStatement(sqlQuery);

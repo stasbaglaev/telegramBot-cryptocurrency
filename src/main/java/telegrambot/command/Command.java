@@ -18,6 +18,12 @@ public enum Command {
     DUMPINGUNI(""),
     DUMPINGDOT(""),
     DUMPINGSOL(""),
+    GRAPHBTC(""),
+    GRAPHETH(""),
+    GRAPHBNB(""),
+    GRAPHUNI(""),
+    GRAPHDOT(""),
+    GRAPHSOL("")
     ;
 
     @Getter
