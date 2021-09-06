@@ -1,2 +1,5 @@
 .idea
 *target/
+src/main/java/telegrambot/Testiki/
+logs/
+*.jpeg
